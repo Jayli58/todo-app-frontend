@@ -2,6 +2,7 @@ import {Todo} from "../types";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
+import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import DeletionDialog from "./DeletionDialog";
 
 interface TodoItemProps {
@@ -22,7 +23,14 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
                     onClick={() => toggleTodo(todo.id)}
                     className="btn-primary"
                 >
-                    {todo.completed ? <RotateLeftIcon /> : <DoneOutlineIcon />}
+                    {todo.completed ? <RotateLeftIcon/> : <DoneOutlineIcon/>}
+                </button>
+
+                <button
+                    onClick={() => toggleTodo(todo.id)}
+                    className="btn-secondary"
+                >
+                    <AccessAlarmIcon/>
                 </button>
 
                 <button

@@ -40,15 +40,22 @@ body {
   }
 
   .btn-primary {
-    @apply rounded-lg bg-emerald-600 px-3 py-1 font-medium text-white
-    shadow hover:bg-emerald-700 focus:outline-none
-    focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2
+    @apply rounded-lg bg-emerald-500 px-3 py-1 font-medium text-white
+    shadow hover:bg-emerald-600 focus:outline-none
+    focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2
+    cursor-pointer;
+  }
+
+  .btn-secondary {
+    @apply rounded-lg bg-blue-500 px-3 py-1 font-medium text-white
+    shadow hover:bg-blue-600 focus:outline-none
+    focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
     cursor-pointer;
   }
 
   .btn-danger {
-    @apply rounded-lg bg-red-600 px-3 py-1 text-white cursor-pointer
-    hover:bg-red-700 shadow-sm;
+    @apply rounded-lg bg-red-500 px-3 py-1 text-white cursor-pointer
+    hover:bg-red-600 shadow-sm;
   }
 
   .btn-filter-inactive {
