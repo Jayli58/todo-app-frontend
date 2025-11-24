@@ -53,7 +53,7 @@ body {
 
   .btn-filter-inactive {
     @apply inline-flex items-center justify-center
-    px-3 py-1 rounded-md text-sm font-medium text-gray-700
+    px-3 py-1 rounded-md text-sm font-semibold text-gray-700
     bg-transparent border border-gray-300
     hover:bg-gray-100 dark:hover:bg-gray-800
     transition cursor-pointer;
@@ -61,9 +61,17 @@ body {
 
   .btn-filter-active {
     @apply inline-flex items-center justify-center
-    px-3 py-1 rounded-md text-sm font-medium text-gray-700
+    px-3 py-1 rounded-md text-sm font-semibold text-gray-700
     bg-gray-300 border border-gray-300
     transition cursor-pointer;
+  }
+
+  .btn-text {
+    @apply mt-3 inline-flex w-full justify-center
+    rounded-md bg-white px-3 py-2 text-sm
+    font-semibold text-gray-900 shadow-xs
+    inset-ring inset-ring-gray-300 hover:bg-gray-50
+    sm:mt-0 sm:w-auto cursor-pointer
   }
 
   .li-item {

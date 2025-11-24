@@ -2,6 +2,7 @@ import {Todo} from "../types";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
+import DeletionDialog from "./DeletionDialog";
 
 interface TodoItemProps {
     todo: Todo;
@@ -25,11 +26,13 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
                 </button>
 
                 <button
-                    onClick={() => deleteTodo(todo.id)}
+                    // onClick={() => deleteTodo(todo.id)}
+                    command="show-modal" commandfor="dialog"
                     className="btn-danger"
                 >
                     <DeleteOutlinedIcon/>
                 </button>
+                <DeletionDialog/>
             </div>
         </li>
 

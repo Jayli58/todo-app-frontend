@@ -6,9 +6,7 @@ function TodoFilter({filter, setFilter}: any) {
                     key={value}
                     onClick={() => setFilter(value)}
                     className={
-                        filter === value
-                            ? "btn-filter-active"
-                            : "btn-filter-inactive"
+                        filter === value ? "btn-filter-active" : "btn-filter-inactive"
                     }
                 >
                     {value[0].toUpperCase() + value.slice(1)}
