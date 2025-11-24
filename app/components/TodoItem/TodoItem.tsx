@@ -1,9 +1,9 @@
-import {Todo} from "../types";
+import {Todo} from "../../types";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
-import DeletionDialog from "./DeletionDialog";
+import DeletionDialog from "./dialog/DeletionDialog";
 
 interface TodoItemProps {
     todo: Todo;
