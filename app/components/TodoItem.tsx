@@ -1,4 +1,7 @@
 import {Todo} from "../types";
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 
 interface TodoItemProps {
     todo: Todo;
@@ -8,11 +11,28 @@ interface TodoItemProps {
 
 function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
     return (
-        <li style={{textDecoration: todo.completed ? 'line-through' : 'none'}}>
-            {todo.text}
-            <button onClick={() => toggleTodo(todo.id)}>Toggle</button>
-            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+        <li className="li-item">
+            <span className={todo.completed ? "text-linethrough" : "text-normal"}>
+                {todo.text}
+            </span>
+
+            <div className="flex gap-2">
+                <button
+                    onClick={() => toggleTodo(todo.id)}
+                    className="btn-primary"
+                >
+                    {todo.completed ? <RotateLeftIcon /> : <DoneOutlineIcon />}
+                </button>
+
+                <button
+                    onClick={() => deleteTodo(todo.id)}
+                    className="btn-danger"
+                >
+                    <DeleteOutlinedIcon/>
+                </button>
+            </div>
         </li>
+
     );
 }
 

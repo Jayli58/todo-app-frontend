@@ -24,3 +24,63 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+@layer components {
+  .input {
+    @apply flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2
+    text-gray-900 shadow-sm focus:border-indigo-500
+    focus:outline-none focus:ring-2 focus:ring-indigo-500;
+  }
+
+  .btn-create {
+    @apply rounded-lg bg-indigo-600 px-4 py-2 font-medium text-white
+    shadow hover:bg-indigo-700 focus:outline-none
+    focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2
+    cursor-pointer;
+  }
+
+  .btn-primary {
+    @apply rounded-lg bg-emerald-600 px-3 py-1 font-medium text-white
+    shadow hover:bg-emerald-700 focus:outline-none
+    focus:ring-2 focus:ring-emerald-600 focus:ring-offset-2
+    cursor-pointer;
+  }
+
+  .btn-danger {
+    @apply rounded-lg bg-red-600 px-3 py-1 text-white cursor-pointer
+    hover:bg-red-700 shadow-sm;
+  }
+
+  .btn-filter-inactive {
+    @apply inline-flex items-center justify-center
+    px-3 py-1 rounded-md text-sm font-medium text-gray-700
+    bg-transparent border border-gray-300
+    hover:bg-gray-100 dark:hover:bg-gray-800
+    transition cursor-pointer;
+  }
+
+  .btn-filter-active {
+    @apply inline-flex items-center justify-center
+    px-3 py-1 rounded-md text-sm font-medium text-gray-700
+    bg-gray-300 border border-gray-300
+    transition cursor-pointer;
+  }
+
+  .li-item {
+    @apply flex items-center justify-between border-b border-gray-300 py-2
+    hover:bg-gray-100;
+  }
+
+  .text-linethrough {
+    @apply line-through text-gray-500 mt-2 text-base font-medium break-all px-2;
+  }
+
+  .text-normal {
+    @apply mt-2 text-base font-medium break-all px-2;
+  }
+
+  .h1-tag {
+    @apply text-3xl font-bold mb-6;
+  }
+}
+

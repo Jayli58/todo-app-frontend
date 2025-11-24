@@ -15,13 +15,14 @@ function AddTodo({addTodo}: AddTodoProps) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="flex items-center gap-3 mt-6 mb-6">
             <input
                 type="text"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
+                className="input"
             />
-            <button>Create new todo</button>
+            <button className="btn-create">Create new todo</button>
         </form>
     );
 }

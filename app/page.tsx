@@ -16,7 +16,7 @@ export default function Home() {
             text: text,
             completed: false
         }
-        setTodos([...todos, newTodo]);
+        setTodos([newTodo, ...todos]);
     }
 
     const deleteTodo = (id: number) => {
@@ -44,13 +44,12 @@ export default function Home() {
     }
 
 
-
     return (
-        <div>
-            <h1>TodoList</h1>
+        <div className="max-w-xl mx-auto mt-10 rounded-xl bg-white dark:bg-gray-800 p-8 shadow-lg ring-1 ring-gray-900/5">
+            <h1 className="h1-tag">TodoList</h1>
             <AddTodo addTodo={addTodo}></AddTodo>
             <TodoList todos={getFilteredTodos()} deleteTodo={deleteTodo} toggleTodo={toggleTodo}></TodoList>
-            <TodoFilter setFilter={setFilter}></TodoFilter>
+            <TodoFilter filter={filter} setFilter={setFilter}></TodoFilter>
         </div>
     );
 }
