@@ -1,4 +1,9 @@
-function TodoFilter({filter, setFilter}: any) {
+interface TodoFilterProps {
+    filter: string
+    setFilter: (value: string) => void;
+}
+
+function TodoFilter({filter, setFilter}: TodoFilterProps) {
     return (
         <div className="flex gap-2 mt-4">
             {["all", "active", "completed"].map((value) => (

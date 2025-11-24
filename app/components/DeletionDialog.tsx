@@ -1,6 +1,11 @@
-import TodoFilter from "./TodoFilter";
+import {Todo} from "../types";
 
-function DeletionDialog() {
+interface DeletionDialogProps {
+    todo: Todo;
+    deleteTodo: (id: number) => void;
+}
+
+function DeletionDialog({todo, deleteTodo}: DeletionDialogProps) {
     return (
         <el-dialog>
             <dialog id="dialog" aria-labelledby="dialog-title"
@@ -17,26 +22,32 @@ function DeletionDialog() {
                                 <div
                                     class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                         stroke-width="1.5" data-slot="icon" aria-hidden="true"
+                                         strokeWidth="1.5" data-slot="icon" aria-hidden="true"
                                          class="size-6 text-red-600">
                                         <path
                                             d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
-                                            strokeLinecap="round" stroke-linejoin="round"/>
+                                            strokeLinecap="round" strokeLinejoin="round"/>
                                     </svg>
                                 </div>
                                 <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                     <h3 id="dialog-title"
-                                        class="text-base font-semibold text-gray-900">Delete memo</h3>
+                                        class="text-base font-semibold text-gray-900">Delete record</h3>
                                     <div class="mt-2">
-                                        <p class="text-sm text-gray-500">Are you sure you want to delete memo? This
+                                        <p class="text-sm text-gray-500 mb-2">Are you sure you want to delete the following record? This
                                             action cannot be undone.</p>
+                                        <p class="text-sm break-all font-style: italic">
+                                            {todo.text}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                            <button type="button" command="close" commandfor="dialog"
-                                    class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto cursor-pointer">Deactivate
+                            <button
+                                onClick={() => deleteTodo(todo.id)}
+                                type="button" command="close" commandfor="dialog"
+                                class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto cursor-pointer">
+                                Delete
                             </button>
                             <button type="button" command="close" commandfor="dialog"
                                     class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto cursor-pointer">Cancel

@@ -32,7 +32,7 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
                 >
                     <DeleteOutlinedIcon/>
                 </button>
-                <DeletionDialog/>
+                <DeletionDialog todo={todo} deleteTodo={deleteTodo} />
             </div>
         </li>
 
