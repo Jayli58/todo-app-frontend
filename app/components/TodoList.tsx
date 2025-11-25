@@ -1,5 +1,7 @@
 import {Todo} from "../types";
 import TodoItem from "./TodoItem/TodoItem";
+import {useFilterStore} from "../services/FilterStore";
+import {FilterType} from "../services/dataType/FilterTypes";
 
 interface TodoListProps {
     todos: Todo[];
@@ -8,11 +10,16 @@ interface TodoListProps {
 }
 
 function TodoList({todos, toggleTodo, deleteTodo}: TodoListProps) {
-    let divContent = (
+    const filter = useFilterStore(s => s.filter);
+
+    const message =
+        filter === FilterType.ALL
+            ? "Click the underneath button to create your first todo..."
+            : `No ${filter === FilterType.ACTIVE ? "active" : "completed"} records.`;
+
+    const divContent = (
         <li className="li-item">
-            <span className="text-hint">
-                Click the underneath button to create your first todo...
-            </span>
+            <span className="text-hint">{message}</span>
         </li>
     );
 

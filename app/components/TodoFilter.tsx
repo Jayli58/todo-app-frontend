@@ -1,25 +1,32 @@
-interface TodoFilterProps {
-    filter: string
-    setFilter: (value: string) => void;
-}
+import {useFilterStore} from "../services/FilterStore";
+import {FilterType} from "../services/dataType/FilterTypes";
 
-function TodoFilter({filter, setFilter}: TodoFilterProps) {
+function TodoFilter() {
+    const filter = useFilterStore((s) => s.filter);
+    const setFilter = useFilterStore((s) => s.setFilter);
+
     return (
         <div className="flex gap-2 mt-4">
-            {["all", "active", "completed"].map((value) => (
-                <button
-                    key={value}
-                    onClick={() => setFilter(value)}
-                    className={
-                        filter === value ? "btn-filter-active" : "btn-filter-inactive"
-                    }
-                >
-                    {value[0].toUpperCase() + value.slice(1)}
-                </button>
-            ))}
-            {/*<button className="btn-filter" onClick={() => setFilter('all')}>All</button>*/}
-            {/*<button className="btn-filter" onClick={() => setFilter('active')}>Active</button>*/}
-            {/*<button className="btn-filter" onClick={() => setFilter('completed')}>Completed</button>*/}
+            <button
+                onClick={() => setFilter(FilterType.ALL)}
+                className={filter === FilterType.ALL ? "btn-filter-active" : "btn-filter-inactive"}
+            >
+                All
+            </button>
+
+            <button
+                onClick={() => setFilter(FilterType.ACTIVE)}
+                className={filter === FilterType.ACTIVE ? "btn-filter-active" : "btn-filter-inactive"}
+            >
+                Active
+            </button>
+
+            <button
+                onClick={() => setFilter(FilterType.COMPLETED)}
+                className={filter === FilterType.COMPLETED ? "btn-filter-active" : "btn-filter-inactive"}
+            >
+                Completed
+            </button>
         </div>
     );
 }
