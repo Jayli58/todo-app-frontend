@@ -8,10 +8,10 @@ interface DeletionDialogProps {
 function DeletionDialog({ todo, deleteTodo }: DeletionDialogProps) {
     return (
         <el-dialog>
-            <dialog id="dialog" aria-labelledby="dialog-title" className="dialog-wrapper">
+            <dialog id="deletion-dialog" aria-labelledby="dialog-title" className="dialog-wrapper">
                 <el-dialog-backdrop className="dialog-backdrop" />
 
-                <div tabIndex={0} className="dialog-container">
+                <div tabIndex={0} className="dialog-container-top">
                     <el-dialog-panel className="dialog-panel">
                         <div className="px-6 py-4">
                             <div className="sm:flex sm:items-start">
@@ -59,7 +59,7 @@ function DeletionDialog({ todo, deleteTodo }: DeletionDialogProps) {
                                 Delete
                             </button>
 
-                            <button command="close" commandfor="dialog" type="button" className="dialog-btn-cancel">
+                            <button command="close" commandfor="deletion-dialog" type="button" className="dialog-btn-cancel">
                                 Cancel
                             </button>
                         </div>

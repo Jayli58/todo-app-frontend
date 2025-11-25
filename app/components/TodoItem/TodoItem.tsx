@@ -4,6 +4,8 @@ import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import DeletionDialog from "./dialog/DeletionDialog";
+import TimePickerDialog from "./dialog/TimePickerDialog";
+import {useState} from "react";
 
 interface TodoItemProps {
     todo: Todo;
@@ -12,6 +14,9 @@ interface TodoItemProps {
 }
 
 function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
+
+    const [open, setOpen] = useState(false);
+
     return (
         <li className="li-item">
             <span className={todo.completed ? "text-linethrough" : "text-normal"}>
@@ -26,21 +31,31 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
                     {todo.completed ? <RotateLeftIcon/> : <DoneOutlineIcon/>}
                 </button>
 
+                {/*<button*/}
+                {/*    command="show-modal" commandfor="time-picker-dialog"*/}
+                {/*    className="btn-secondary"*/}
+                {/*>*/}
+                {/*    <AccessAlarmIcon/>*/}
+                {/*</button>*/}
+                {/*<TimePickerDialog/>*/}
+
                 <button
-                    onClick={() => toggleTodo(todo.id)}
+                    onClick={() => setOpen(true)}
                     className="btn-secondary"
                 >
-                    <AccessAlarmIcon/>
+                    <AccessAlarmIcon />
                 </button>
+                <TimePickerDialog todo={todo} open={open} onClose={() => setOpen(false)} />
 
                 <button
                     // onClick={() => deleteTodo(todo.id)}
-                    command="show-modal" commandfor="dialog"
+                    command="show-modal" commandfor="deletion-dialog"
                     className="btn-danger"
                 >
                     <DeleteOutlinedIcon/>
                 </button>
                 <DeletionDialog todo={todo} deleteTodo={deleteTodo} />
+
             </div>
         </li>
 

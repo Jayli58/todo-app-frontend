@@ -42,14 +42,14 @@ body {
   .btn-primary {
     @apply rounded-lg bg-emerald-500 px-3 py-1 font-medium text-white
     shadow hover:bg-emerald-600 focus:outline-none
-    focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2
+    /*focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2*/
     cursor-pointer;
   }
 
   .btn-secondary {
     @apply rounded-lg bg-blue-500 px-3 py-1 font-medium text-white
     shadow hover:bg-blue-600 focus:outline-none
-    focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+    /*focus:ring-2 focus:ring-blue-500 focus:ring-offset-2*/
     cursor-pointer;
   }
 
@@ -117,6 +117,11 @@ body {
     focus:outline-none sm:items-center sm:p-0;
   }
 
+  .dialog-container-top {
+    @apply flex min-h-full items-end justify-center p-4 text-center
+    focus:outline-none sm:items-start sm:p-0;
+  }
+
   /* --- Dialog Panel --- */
   .dialog-panel {
     @apply relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl
@@ -130,6 +135,11 @@ body {
   .dialog-icon {
     @apply mx-auto flex size-12 shrink-0 items-center justify-center
     rounded-full bg-red-100 sm:mx-0 sm:size-10;
+  }
+
+  .dialog-icon-blue {
+    @apply mx-auto flex size-12 shrink-0 items-center justify-center
+    rounded-full bg-blue-100 sm:mx-0 sm:size-10;
   }
 
   /* --- Dialog Title --- */
@@ -156,13 +166,19 @@ body {
   .dialog-btn-danger {
     @apply inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2
     text-sm font-semibold text-white shadow-xs hover:bg-red-500
-    sm:ml-3 sm:w-auto cursor-pointer;
+    sm:ml-3 sm:w-24 cursor-pointer;
+  }
+
+  .dialog-btn-secondary {
+    @apply inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2
+    text-sm font-semibold text-white shadow-xs hover:bg-blue-500
+    sm:ml-3 sm:w-24 cursor-pointer;
   }
 
   .dialog-btn-cancel {
     @apply mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2
     text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300
-    hover:bg-gray-50 sm:mt-0 sm:w-auto cursor-pointer;
+    hover:bg-gray-100 sm:mt-0 sm:w-24 cursor-pointer;
   }
 }
 

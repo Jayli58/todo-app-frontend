@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import AddTodo from "./components/AddTodo";
 import TodoFilter from "./components/TodoFilter";
 import TodoList from "./components/TodoList";
@@ -14,7 +14,8 @@ export default function Home() {
         const newTodo = {
             id: Date.now(),
             text: text,
-            completed: false
+            completed: false,
+            remindDatetime: null
         }
         setTodos([newTodo, ...todos]);
     }
@@ -31,6 +32,13 @@ export default function Home() {
             return todo;
         }))
     }
+
+    const handleSetReminder = (datetime: string | null) => {
+        setTodos(todo => ({
+            ...todo,
+            remindDatetime: datetime
+        }));
+    };
 
     const getFilteredTodos = () => {
         switch (filter) {
