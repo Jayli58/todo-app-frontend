@@ -5,6 +5,7 @@ import TodoList from "./components/TodoList";
 import {useState} from "react";
 import {Todo} from "./types";
 import {ReminderContext} from "./services/RemainderContext";
+import CreateTodo from "./components/CreateTodo/CreateTodo";
 
 
 export default function Home() {
@@ -62,7 +63,10 @@ export default function Home() {
                 <h1 className="h1-tag">TodoList</h1>
                 <AddTodo addTodo={addTodo}></AddTodo>
                 <TodoList todos={getFilteredTodos()} deleteTodo={deleteTodo} toggleTodo={toggleTodo}></TodoList>
-                <TodoFilter filter={filter} setFilter={setFilter}></TodoFilter>
+                <div className="flex justify-between">
+                    <CreateTodo addTodo={addTodo}></CreateTodo>
+                    <TodoFilter filter={filter} setFilter={setFilter}></TodoFilter>
+                </div>
             </div>
         </ReminderContext.Provider>
     );

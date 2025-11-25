@@ -35,7 +35,6 @@ body {
   .btn-create {
     @apply rounded-lg bg-indigo-600 px-4 py-2 font-medium text-white
     shadow hover:bg-indigo-700 focus:outline-none
-    focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2
     cursor-pointer;
   }
 
@@ -70,6 +69,13 @@ body {
     @apply inline-flex items-center justify-center
     px-3 py-1 rounded-md text-sm font-semibold text-gray-700
     bg-gray-300 border border-gray-300
+    transition cursor-pointer;
+  }
+
+  .btn-new-create {
+    @apply inline-flex items-center justify-center
+    px-3 py-1 rounded-md text-sm font-semibold text-white
+    bg-indigo-600 hover:bg-indigo-700
     transition cursor-pointer;
   }
 
