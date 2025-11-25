@@ -5,7 +5,10 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import {Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import {Todo} from "../../../types";
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import {useReminder} from "../../../services/RemainderContext";
+import dayjs from 'dayjs';
+
 
 interface TimePickerDialogProps {
     todo: Todo;
@@ -14,6 +17,14 @@ interface TimePickerDialogProps {
 }
 
 function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
+    const { setReminder } = useReminder();
+
+    const handleSave = (value: number | null) => {
+        setReminder(todo.id, value);
+        onClose();
+    };
+
+    const [selectedValue, setSelectedValue] = useState<number | null>(null);
 
     // ESC key closes the dialog
     useEffect(() => {
@@ -54,7 +65,7 @@ function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
 
                             <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                 <h3 id="dialog-title" className="dialog-title">
-                                    {todo.remindDatetime === null ? "Set up a remainder" : "Modify the remainder"}
+                                    {todo.remindTimestamp === null ? "Set up a remainder" : "Modify the remainder"}
                                 </h3>
 
                                 <p className="dialog-message">
@@ -65,7 +76,17 @@ function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
 
                                 <div className="mt-6">
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DateTimePicker label="Reminder time" />
+                                        <DateTimePicker
+                                            label="Reminder time"
+                                            value={selectedValue ? dayjs(selectedValue) : null}
+                                            onChange={(newValue) => {
+                                                if (newValue) {
+                                                    setSelectedValue(newValue.valueOf());
+                                                } else {
+                                                    setSelectedValue(null);
+                                                }
+                                            }}
+                                        />
                                     </LocalizationProvider>
                                 </div>
 
@@ -75,10 +96,11 @@ function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
 
                     <div className="dialog-footer">
                         <button
+                            onClick={() => handleSave(selectedValue)}
                             className="dialog-btn-secondary"
                             type="button"
                         >
-                            {todo.remindDatetime === null ? "Set" : "Reset"}
+                            {todo.remindTimestamp === null ? "Set" : "Reset"}
                         </button>
 
                         <button

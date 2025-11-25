@@ -4,6 +4,7 @@ import TodoFilter from "./components/TodoFilter";
 import TodoList from "./components/TodoList";
 import {useState} from "react";
 import {Todo} from "./types";
+import {ReminderContext} from "./services/RemainderContext";
 
 
 export default function Home() {
@@ -15,7 +16,7 @@ export default function Home() {
             id: Date.now(),
             text: text,
             completed: false,
-            remindDatetime: null
+            remindTimestamp: null
         }
         setTodos([newTodo, ...todos]);
     }
@@ -33,12 +34,15 @@ export default function Home() {
         }))
     }
 
-    const handleSetReminder = (datetime: string | null) => {
-        setTodos(todo => ({
-            ...todo,
-            remindDatetime: datetime
-        }));
+    const setReminder = (id: number, timestamp: number | null) => {
+        setTodos(todos.map(todo => {
+            if (todo.id === id) {
+                todo.remindTimestamp = timestamp;
+            }
+            return todo;
+        }))
     };
+
 
     const getFilteredTodos = () => {
         switch (filter) {
@@ -53,11 +57,13 @@ export default function Home() {
 
 
     return (
-        <div className="max-w-xl mx-auto mt-10 rounded-xl bg-white dark:bg-gray-800 p-8 shadow-lg ring-1 ring-gray-900/5">
-            <h1 className="h1-tag">TodoList</h1>
-            <AddTodo addTodo={addTodo}></AddTodo>
-            <TodoList todos={getFilteredTodos()} deleteTodo={deleteTodo} toggleTodo={toggleTodo}></TodoList>
-            <TodoFilter filter={filter} setFilter={setFilter}></TodoFilter>
-        </div>
+        <ReminderContext.Provider value={{ setReminder }}>
+            <div className="max-w-xl mx-auto mt-10 rounded-xl bg-white dark:bg-gray-800 p-8 shadow-lg ring-1 ring-gray-900/5">
+                <h1 className="h1-tag">TodoList</h1>
+                <AddTodo addTodo={addTodo}></AddTodo>
+                <TodoList todos={getFilteredTodos()} deleteTodo={deleteTodo} toggleTodo={toggleTodo}></TodoList>
+                <TodoFilter filter={filter} setFilter={setFilter}></TodoFilter>
+            </div>
+        </ReminderContext.Provider>
     );
 }
