@@ -18,6 +18,8 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
 
     const [open, setOpen] = useState(false);
 
+    const tooltipMark = todo.completed ? "Mark as active" : "Mark as completed";
+
     return (
         <li className="li-item">
             <Tooltip title={todo.content} arrow placement="auto">
@@ -27,12 +29,14 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
             </Tooltip>
 
             <div className="flex gap-2">
-                <button
-                    onClick={() => toggleTodo(todo.id)}
-                    className="btn-primary"
-                >
-                    {todo.completed ? <RotateLeftIcon/> : <DoneOutlineIcon/>}
-                </button>
+                <Tooltip title={tooltipMark} placement="top" arrow>
+                    <button
+                        onClick={() => toggleTodo(todo.id)}
+                        className="btn-primary"
+                    >
+                        {todo.completed ? <RotateLeftIcon/> : <DoneOutlineIcon/>}
+                    </button>
+                </Tooltip>
 
                 {/*<button*/}
                 {/*    command="show-modal" commandfor="time-picker-dialog"*/}
@@ -42,21 +46,25 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
                 {/*</button>*/}
                 {/*<TimePickerDialog/>*/}
 
-                <button
-                    onClick={() => setOpen(true)}
-                    className="btn-secondary"
-                >
-                    <AccessAlarmIcon />
-                </button>
+                <Tooltip title="Set email notification" placement="top" arrow>
+                    <button
+                        onClick={() => setOpen(true)}
+                        className="btn-secondary"
+                    >
+                        <AccessAlarmIcon />
+                    </button>
+                </Tooltip>
                 <TimePickerDialog todo={todo} open={open} onClose={() => setOpen(false)} />
 
-                <button
-                    // onClick={() => deleteTodo(todo.id)}
-                    command="show-modal" commandfor="deletion-dialog"
-                    className="btn-danger"
-                >
-                    <DeleteOutlinedIcon/>
-                </button>
+                <Tooltip title="Delete" placement="top" arrow>
+                    <button
+                        // onClick={() => deleteTodo(todo.id)}
+                        command="show-modal" commandfor="deletion-dialog"
+                        className="btn-danger"
+                    >
+                        <DeleteOutlinedIcon/>
+                    </button>
+                </Tooltip>
                 <DeletionDialog todo={todo} deleteTodo={deleteTodo} />
 
             </div>
