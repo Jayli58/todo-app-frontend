@@ -100,6 +100,15 @@ body {
     @apply mt-2 text-base font-medium break-all px-2;
   }
 
+  .text-hint {
+    @apply mt-2 text-base font-medium break-all px-2
+    italic text-gray-500 opacity-80;
+  }
+
+  .text-hint::placeholder {
+    @apply italic text-gray-500 opacity-80 text-base;
+  }
+
   .h1-tag {
     @apply text-3xl font-bold mb-6;
   }

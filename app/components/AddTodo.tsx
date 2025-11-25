@@ -1,4 +1,5 @@
-import {useState} from "react";
+import React, {useState} from "react";
+import SearchIcon from '@mui/icons-material/Search';
 
 interface AddTodoProps {
     addTodo: (text: string) => void;
@@ -20,9 +21,12 @@ function AddTodo({addTodo}: AddTodoProps) {
                 type="text"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                className="input"
+                className="input text-hint::placeholder"
+                placeholder="Enter keyword to search..."
             />
-            <button className="btn-create">Create new todo</button>
+            <button className="btn-create">
+                <SearchIcon/>
+            </button>
         </form>
     );
 }

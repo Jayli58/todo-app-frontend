@@ -1,8 +1,13 @@
+'use client';
 import {useState} from "react";
 import CreateTodoFormDialog from "./dialog/CreateTodoFormDialog";
 
-function CreateTodo() {
+interface AddTodoProps {
+    addTodo: (text: string) => void;
+}
 
+
+function CreateTodo({addTodo}: AddTodoProps) {
     const [open, setOpen] = useState(false);
 
     return (
@@ -13,7 +18,7 @@ function CreateTodo() {
             >
                 Create todo
             </button>
-            <CreateTodoFormDialog open={open} onClose={() => setOpen(false)} />
+            <CreateTodoFormDialog addTodo={addTodo} open={open} onClose={() => setOpen(false)} />
 
         </div>
     );

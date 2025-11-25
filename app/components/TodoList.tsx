@@ -10,7 +10,7 @@ interface TodoListProps {
 function TodoList({todos, toggleTodo, deleteTodo}: TodoListProps) {
     let divContent = (
         <li className="li-item">
-            <span className="text-normal italic text-gray-500 opacity-80">
+            <span className="text-hint">
                 Click the underneath button to create your first todo...
             </span>
         </li>
