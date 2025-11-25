@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {TextField} from "@mui/material";
 
 interface CreateTodoFormProps {
-    addTodo: (text: string) => void;
+    addTodo: (text: string, content: string) => void;
     open: boolean;
     onClose: () => void;
 }
@@ -32,8 +32,9 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const todoText = `${title}`.trim();
+        const todoContent = `${content}`.trim();
         if (todoText === "") return;
-        addTodo(todoText);
+        addTodo(todoText, todoContent);
 
         // reset
         setTitle("");

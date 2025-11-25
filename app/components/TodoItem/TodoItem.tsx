@@ -6,6 +6,7 @@ import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import DeletionDialog from "./dialog/DeletionDialog";
 import TimePickerDialog from "./dialog/TimePickerDialog";
 import {useState} from "react";
+import Tooltip from '@mui/material/Tooltip';
 
 interface TodoItemProps {
     todo: Todo;
@@ -19,9 +20,11 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
 
     return (
         <li className="li-item">
-            <span className={todo.completed ? "text-linethrough" : "text-normal"}>
-                {todo.text}
-            </span>
+            <Tooltip title={todo.content} arrow placement="auto">
+                <span className={todo.completed ? "text-linethrough" : "text-normal"}>
+                    {todo.text}
+                </span>
+            </Tooltip>
 
             <div className="flex gap-2">
                 <button
@@ -58,7 +61,6 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
 
             </div>
         </li>
-
     );
 }
 

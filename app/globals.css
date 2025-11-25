@@ -94,6 +94,8 @@ body {
 
   .text-linethrough {
     @apply line-through text-gray-500 mt-2 text-base font-medium break-all px-2;
+    /*to allow tooltip work*/
+    pointer-events: auto;
   }
 
   .text-normal {

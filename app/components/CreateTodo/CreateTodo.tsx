@@ -3,7 +3,7 @@ import {useState} from "react";
 import CreateTodoFormDialog from "./dialog/CreateTodoFormDialog";
 
 interface AddTodoProps {
-    addTodo: (text: string) => void;
+    addTodo: (text: string, content: string) => void;
 }
 
 

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import SearchIcon from '@mui/icons-material/Search';
 
 interface AddTodoProps {
-    addTodo: (text: string) => void;
+    addTodo: (text: string, content: string) => void;
 }
 
 function AddTodo({addTodo}: AddTodoProps) {
@@ -11,7 +11,7 @@ function AddTodo({addTodo}: AddTodoProps) {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (text.trim() === '') return;
-        addTodo(text);
+        addTodo(text, '');
         setText('');
     }
 

@@ -72,7 +72,15 @@ function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
                                     A mail will be sent upon the set time.
                                 </p>
 
-                                <p className="dialog-todo-text mb-3">{todo.text}</p>
+                                <p className="dialog-todo-text mb-1">
+                                    <span className="inline-block w-20">Title:</span>
+                                    {todo.text}
+                                </p>
+
+                                <p className="dialog-todo-text mb-1">
+                                    <span className="inline-block w-20">Content:</span>
+                                    {todo.content}
+                                </p>
 
                                 <div className="mt-6">
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>

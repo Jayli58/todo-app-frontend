@@ -13,10 +13,11 @@ import {FilterType} from "./services/dataType/FilterTypes";
 export default function Home() {
     const [todos, setTodos] = useState<Todo[]>([]);
 
-    const addTodo = (text: string) => {
+    const addTodo = (text: string, content: string) => {
         const newTodo = {
             id: Date.now(),
             text: text,
+            content: content,
             completed: false,
             remindTimestamp: null
         }
