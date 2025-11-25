@@ -1,6 +1,6 @@
 'use client';
 import PostAddIcon from '@mui/icons-material/PostAdd';
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {TextField} from "@mui/material";
 
 interface CreateTodoFormProps {
@@ -12,6 +12,22 @@ interface CreateTodoFormProps {
 function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+
+    // ESC key closes the dialog
+    useEffect(() => {
+        if (!open) return;
+
+        const handler = (e) => {
+            if (e.key === "Escape") {
+                onClose();
+            }
+        };
+
+        document.addEventListener("keydown", handler);
+        return () => {
+            document.removeEventListener("keydown", handler);
+        };
+    }, [open, onClose]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -33,7 +49,7 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
 
             <div tabIndex={0} className="dialog-container-top">
                 <el-dialog-panel className="dialog-panel">
-                    <div className="px-6 py-4">
+                    <div className="px-6 pt-4">
                         <div className="sm:flex sm:items-start">
                             <div className="dialog-icon-blue">
                                 <svg
@@ -48,7 +64,7 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
                                 </svg>
                             </div>
 
-                            <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <div className="mt-3 w-full text-center sm:mt-0 sm:ml-4 sm:text-left">
                                 <h3 id="dialog-title" className="dialog-title">
                                     Create a new todo
                                 </h3>
@@ -58,13 +74,18 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
                                 </p>
 
                                 <div className="dialog-todo-text mb-3">
-                                    <form id="todoForm" onSubmit={handleSubmit} className="flex flex-col items-center gap-3 mb-6">
+                                    <form
+                                        id="todoForm"
+                                        onSubmit={handleSubmit}
+                                        className="flex flex-col gap-3 mb-6"
+                                    >
                                         <TextField
                                             id="todo-title"
                                             label="Title"
                                             variant="outlined"
                                             value={title}
                                             onChange={(e) => setTitle(e.target.value)}
+                                            fullWidth
                                         />
                                         <TextField
                                             id="todo-content"
@@ -72,7 +93,8 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
                                             multiline
                                             rows={4}
                                             value={content}
-                                            onChange={(e) => setTitle(e.target.value)}
+                                            onChange={(e) => setContent(e.target.value)}
+                                            fullWidth
                                         />
                                         {/*<Textarea*/}
                                         {/*    className="mt-1"*/}
