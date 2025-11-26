@@ -1,18 +1,17 @@
 import React, {useState} from "react";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
+import {Todo} from "../types";
 
-interface AddTodoProps {
-    addTodo: (text: string, content: string) => void;
+interface SearchTodoProps {
+    searchTodo: (text: string) => Todo[];
 }
 
-function AddTodo({addTodo}: AddTodoProps) {
+function SearchTodo({searchTodo}: SearchTodoProps) {
     const [text, setText] = useState('');
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (text.trim() === '') return;
-        addTodo(text, '');
-        setText('');
+        searchTodo(text);
     }
 
     return (
@@ -31,4 +30,4 @@ function AddTodo({addTodo}: AddTodoProps) {
     );
 }
 
-export default AddTodo;
+export default SearchTodo;
