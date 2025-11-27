@@ -24,7 +24,7 @@ export default function Home() {
 
     return (
         <ReminderContext.Provider value={{ setReminder }}>
-            <div className="max-w-xl mx-auto mt-10 rounded-xl bg-white dark:bg-gray-800 p-8 shadow-lg ring-1 ring-gray-900/5">
+            <div className="mat-card">
                 <h1 className="h1-tag">Todo List for {identity?.name ?? "Guest"}</h1>
                 <SearchTodo searchTodo={searchTodo}></SearchTodo>
                 <TodoList todos={filteredTodos} deleteTodo={deleteTodo} toggleTodo={toggleTodo}></TodoList>

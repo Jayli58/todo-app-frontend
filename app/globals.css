@@ -32,6 +32,11 @@ body {
     focus:outline-none focus:ring-2 focus:ring-indigo-500;
   }
 
+  .mat-card {
+    @apply max-w-xl mx-auto mt-10 rounded-xl bg-white dark:bg-gray-800
+    p-8 shadow-lg ring-1 ring-gray-900/5;
+  }
+
   .btn-create {
     @apply rounded-lg bg-indigo-600 px-4 py-2 font-medium text-white
     shadow hover:bg-indigo-700 focus:outline-none

@@ -8,6 +8,7 @@ import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import {useEffect, useState} from "react";
 import {useReminder} from "../../../services/RemainderContext";
 import dayjs from 'dayjs';
+import {MobileDateTimePicker} from "@mui/x-date-pickers";
 
 
 interface TimePickerDialogProps {
@@ -84,9 +85,9 @@ function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
 
                                 <div className="mt-6">
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DateTimePicker
+                                        <MobileDateTimePicker
                                             label="Reminder time"
-                                            value={selectedValue ? dayjs(selectedValue) : null}
+                                            value={selectedValue ? dayjs(selectedValue) : dayjs()}
                                             onChange={(newValue) => {
                                                 if (newValue) {
                                                     setSelectedValue(newValue.valueOf());
