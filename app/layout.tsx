@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import {CognitoAuthProvider} from "./config/auth-provider";
+import {CognitoAuthProvider} from "./providers/auth-provider";
 import React from "react";
 
 const geistSans = Geist({

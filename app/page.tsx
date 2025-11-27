@@ -9,10 +9,13 @@ import {useFilterStore} from "./services/FilterStore";
 import {FilterType} from "./services/dataType/FilterTypes";
 import SearchTodo from "./components/SearchTodo";
 import {useAuth} from "react-oidc-context";
+import {useIdentityStore} from "./services/IdentityStore";
 
 
 export default function Home() {
     const auth = useAuth();
+    const identity = useIdentityStore(i => i.identity);
+    const setIdentity = useIdentityStore((s) => s.setIdentity);
 
     // auto-redirect when unauthenticated
     useEffect(() => {
@@ -20,6 +23,19 @@ export default function Home() {
             auth.signinRedirect();
         }
     }, [auth.isLoading, auth.isAuthenticated]);
+
+    // extract id info
+    useEffect(() => {
+        if (auth.isAuthenticated && auth.user) {
+            setIdentity({
+                email: auth.user?.profile?.email ?? "",
+                name: auth.user?.profile?.name ?? "",
+                idToken: auth.user?.id_token ?? "",
+                accessToken: auth.user?.access_token ?? "",
+                refreshToken: auth.user?.refresh_token ?? "",
+            });
+        }
+    }, [auth.isAuthenticated, auth.user, setIdentity]);
 
     const [todos, setTodos] = useState<Todo[]>([]);
     const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
@@ -101,7 +117,7 @@ export default function Home() {
     return (
         <ReminderContext.Provider value={{ setReminder }}>
             <div className="max-w-xl mx-auto mt-10 rounded-xl bg-white dark:bg-gray-800 p-8 shadow-lg ring-1 ring-gray-900/5">
-                <h1 className="h1-tag">Todo List</h1>
+                <h1 className="h1-tag">Todo List for {identity?.name ?? "Guest"}</h1>
                 <SearchTodo searchTodo={searchTodo}></SearchTodo>
                 <TodoList todos={getFilteredTodos()} deleteTodo={deleteTodo} toggleTodo={toggleTodo}></TodoList>
                 <div className="flex justify-between">
