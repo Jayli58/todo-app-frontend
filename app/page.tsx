@@ -8,9 +8,19 @@ import CreateTodo from "./components/CreateTodo/CreateTodo";
 import {useFilterStore} from "./services/FilterStore";
 import {FilterType} from "./services/dataType/FilterTypes";
 import SearchTodo from "./components/SearchTodo";
+import {useAuth} from "react-oidc-context";
 
 
 export default function Home() {
+    const auth = useAuth();
+
+    // auto-redirect when unauthenticated
+    useEffect(() => {
+        if (!auth.isLoading && !auth.isAuthenticated) {
+            auth.signinRedirect();
+        }
+    }, [auth.isLoading, auth.isAuthenticated]);
+
     const [todos, setTodos] = useState<Todo[]>([]);
     const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
 
@@ -20,6 +30,10 @@ export default function Home() {
     useEffect(() => {
         setFilteredTodos(todos);
     }, [todos, filter]);
+
+    if (auth.isLoading || !auth.isAuthenticated) {
+        return <div>Redirecting to login…</div>;
+    }
 
     const addTodo = (text: string, content: string) => {
         const newTodo = {
