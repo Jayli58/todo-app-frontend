@@ -18,7 +18,7 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
 
     const [open, setOpen] = useState(false);
 
-    const tooltipMark = todo.statusCode === 'Incomplete' ? "Mark as active" : "Mark as completed";
+    const tooltipMark = todo.statusCode === 'Incomplete' ? "Mark as completed" : "Mark as active";
 
     return (
         <li className="li-item">

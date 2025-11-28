@@ -5,7 +5,7 @@ import {cognitoAuthConfig} from "../config/CongnitoAuthConfig";
 import {useIdentityStore} from "../store/IdentityStore";
 import {useEffect} from "react";
 import {AuthEvents} from "./AuthEvents";
-import {AuthSetup} from "../components/shared/api/AuthSetup";
+import {AuthSetup} from "../shared/api/AuthSetup";
 
 function CognitoAuthGuard({ children }: { children: React.ReactNode }) {
     const auth = useAuth();

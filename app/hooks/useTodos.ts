@@ -3,7 +3,7 @@ import {Todo} from "../dataType/Todo";
 import {useFilterStore} from "../store/FilterStore";
 import {FilterType} from "../dataType/FilterTypes";
 import {useAuth} from "react-oidc-context";
-import {fetchTodos, newFetchTodos} from "../components/shared/TodoService";
+import {fetchTodos, updateTodoStatus} from "../shared/TodoService";
 
 
 export function useTodos() {
@@ -17,18 +17,11 @@ export function useTodos() {
     useEffect(() => {
         if (!auth.isAuthenticated || !auth.user) return;
 
-        const token = auth.user.id_token;
+        fetchTodos()
+            .then(setTodos)
+            .catch(console.error);
 
-        if (token != null) {
-            newFetchTodos()
-                .then((res: any) => {
-                    // console.log(res);
-                    return setTodos(res);
-                })
-                .catch(console.error);
-        }
-
-    }, [auth.isAuthenticated, auth.user]);  // runs when login finishes
+    }, [auth.isAuthenticated]);
 
     // update upon changes on todos or filter
     useEffect(() => {
@@ -37,7 +30,7 @@ export function useTodos() {
 
     const addTodo = (text: string, content: string) => {
         const newTodo = {
-            todoId: Date.now(),
+            todoId: '',
             title: text,
             content: content,
             statusCode: 'Incomplete',
@@ -46,8 +39,8 @@ export function useTodos() {
         setTodos([newTodo, ...todos]);
     }
 
-    const deleteTodo = (id: number) => {
-        setTodos(todos.filter(todo => todo.todoId !== id));
+    const deleteTodo = (todoId: string) => {
+        setTodos(todos.filter(todo => todo.todoId !== todoId));
     }
 
     const searchTodo = (text: string) => {
@@ -67,18 +60,37 @@ export function useTodos() {
         );
     }
 
-    const toggleTodo = (id: number) => {
-        setTodos(todos.map(todo => {
-            if (todo.todoId === id) {
-                todo.statusCode = 'Incomplete';
-            }
-            return todo;
-        }))
+    const toggleTodo = async (todoId: string) => {
+        const existing = todos.find(t => t.todoId === todoId);
+        if (!existing) return;
+
+        const newStatus =
+            existing.statusCode === "Complete" ? "Incomplete" : "Complete";
+
+        try {
+            // 1. Send update to backend
+            const updated = await updateTodoStatus(todoId, newStatus);
+
+            // 2. Update local state with backend response
+            setTodos(todos.map(t =>
+                t.todoId === todoId ? updated : t
+            ));
+
+        } catch (e) {
+            console.error("Toggle failed:", e);
+        }
+
+        // setTodos(todos.map(todo => {
+        //     if (todo.todoId === todoId) {
+        //         todo.statusCode = todo.statusCode === 'Incomplete' ? 'Complete' : 'Incomplete';
+        //     }
+        //     return todo;
+        // }))
     }
 
-    const setReminder = (id: number, timestamp: number | null) => {
+    const setReminder = (todoId: string, timestamp: number | null) => {
         setTodos(todos.map(todo => {
-            if (todo.todoId === id) {
+            if (todo.todoId === todoId) {
                 todo.remindTimestamp = timestamp;
             }
             return todo;
