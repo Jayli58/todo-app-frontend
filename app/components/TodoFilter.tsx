@@ -1,5 +1,5 @@
-import {useFilterStore} from "../services/FilterStore";
-import {FilterType} from "../services/dataType/FilterTypes";
+import {useFilterStore} from "../store/FilterStore";
+import {FilterType} from "../dataType/FilterTypes";
 
 function TodoFilter() {
     const filter = useFilterStore((s) => s.filter);

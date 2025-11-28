@@ -1,7 +1,7 @@
-import {Todo} from "../daataType/Todo";
+import {Todo} from "../dataType/Todo";
 import TodoItem from "./TodoItem/TodoItem";
-import {useFilterStore} from "../services/FilterStore";
-import {FilterType} from "../services/dataType/FilterTypes";
+import {useFilterStore} from "../store/FilterStore";
+import {FilterType} from "../dataType/FilterTypes";
 
 interface TodoListProps {
     todos: Todo[];

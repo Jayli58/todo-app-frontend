@@ -1,7 +1,7 @@
 'use client';
 
 import { create } from 'zustand';
-import {FilterType} from "./dataType/FilterTypes";
+import {FilterType} from "../dataType/FilterTypes";
 
 interface FilterState {
     filter: FilterType;

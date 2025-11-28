@@ -1,10 +1,11 @@
 "use client";
 
 import {AuthProvider, useAuth} from "react-oidc-context";
-import { cognitoAuthConfig } from "../config/congnitoAuthConfig";
-import {useIdentityStore} from "../services/IdentityStore";
+import {cognitoAuthConfig} from "../config/CongnitoAuthConfig";
+import {useIdentityStore} from "../store/IdentityStore";
 import {useEffect} from "react";
-import {AuthEvents} from "../components/Auth/AuthEvents";
+import {AuthEvents} from "./AuthEvents";
+import {AuthSetup} from "../components/shared/api/AuthSetup";
 
 function CognitoAuthGuard({ children }: { children: React.ReactNode }) {
     const auth = useAuth();
@@ -41,6 +42,8 @@ export function CognitoAuthProvider({ children }: { children: React.ReactNode })
         <AuthProvider {...cognitoAuthConfig}>
             <CognitoAuthGuard>
                 <AuthEvents/>
+                {/*apply interceptor with jwt*/}
+                <AuthSetup/>
                 {children}
             </CognitoAuthGuard>
         </AuthProvider>

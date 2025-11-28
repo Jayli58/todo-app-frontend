@@ -1,7 +1,7 @@
 'use client';
 
 import { create } from 'zustand';
-import {IdentityInfo} from "./dataType/IdentityInfo";
+import {IdentityInfo} from "../dataType/IdentityInfo";
 
 interface IdentityState {
     identity: IdentityInfo | null;

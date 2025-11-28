@@ -1,10 +1,10 @@
 "use client";
 import TodoFilter from "./components/TodoFilter";
 import TodoList from "./components/TodoList";
-import {ReminderContext} from "./services/RemainderContext";
+import {ReminderContext} from "./context/RemainderContext";
 import CreateTodo from "./components/CreateTodo/CreateTodo";
 import SearchTodo from "./components/SearchTodo";
-import {useIdentityStore} from "./services/IdentityStore";
+import {useIdentityStore} from "./store/IdentityStore";
 import {useTodos} from "./hooks/useTodos";
 
 

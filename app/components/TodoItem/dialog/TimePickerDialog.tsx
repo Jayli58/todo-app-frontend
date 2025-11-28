@@ -3,10 +3,10 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import {Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
-import {Todo} from "../../../daataType/Todo";
+import {Todo} from "../../../dataType/Todo";
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import {useEffect, useState} from "react";
-import {useReminder} from "../../../services/RemainderContext";
+import {useReminder} from "../../../context/RemainderContext";
 import dayjs from 'dayjs';
 import {MobileDateTimePicker} from "@mui/x-date-pickers";
 

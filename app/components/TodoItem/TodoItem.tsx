@@ -1,4 +1,4 @@
-import {Todo} from "../../daataType/Todo";
+import {Todo} from "../../dataType/Todo";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';

@@ -1,9 +1,9 @@
 import {useEffect, useState} from "react";
-import {Todo} from "../daataType/Todo";
-import {useFilterStore} from "../services/FilterStore";
-import {FilterType} from "../services/dataType/FilterTypes";
+import {Todo} from "../dataType/Todo";
+import {useFilterStore} from "../store/FilterStore";
+import {FilterType} from "../dataType/FilterTypes";
 import {useAuth} from "react-oidc-context";
-import {fetchTodos} from "../services/TodoService";
+import {fetchTodos, newFetchTodos} from "../components/shared/TodoService";
 
 
 export function useTodos() {
@@ -20,9 +20,9 @@ export function useTodos() {
         const token = auth.user.id_token;
 
         if (token != null) {
-            fetchTodos(token)
+            newFetchTodos()
                 .then((res: any) => {
-                    console.log(res);
+                    // console.log(res);
                     return setTodos(res);
                 })
                 .catch(console.error);
