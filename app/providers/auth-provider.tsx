@@ -9,6 +9,21 @@ function CognitoAuthGuard({ children }: { children: React.ReactNode }) {
     const auth = useAuth();
     const setIdentity = useIdentityStore(s => s.setIdentity);
 
+    // Logs when token is going to expire
+    auth.events.addAccessTokenExpiring(() => {
+        console.log("Token is expiring, attempting silent renew...");
+    });
+
+    // Logs when token has expired
+    auth.events.addAccessTokenExpired(() => {
+        console.log("Access token expired");
+    });
+
+    // Logs silent renew errors
+    auth.events.addSilentRenewError((e) => {
+        console.error("Silent renew error:", e);
+    });
+
     // auto-redirect when unauthenticated
     useEffect(() => {
         if (!auth.isLoading && !auth.isAuthenticated) {

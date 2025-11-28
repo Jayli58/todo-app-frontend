@@ -87,7 +87,7 @@ function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <MobileDateTimePicker
                                             label="Reminder time"
-                                            value={selectedValue ? dayjs(selectedValue) : dayjs()}
+                                            value={selectedValue ? dayjs(selectedValue) : null}
                                             onChange={(newValue) => {
                                                 if (newValue) {
                                                     setSelectedValue(newValue.valueOf());

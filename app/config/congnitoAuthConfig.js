@@ -4,4 +4,5 @@ export const cognitoAuthConfig = {
     redirect_uri: "http://localhost:3000/callback",
     response_type: "code",
     scope: "openid email profile phone",
+    automaticSilentRenew: true,
 };
