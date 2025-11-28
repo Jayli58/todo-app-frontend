@@ -1,4 +1,4 @@
-import {Todo} from "../../../types";
+import {Todo} from "../../../daataType/Todo";
 
 interface DeletionDialogProps {
     todo: Todo;
@@ -45,14 +45,14 @@ function DeletionDialog({ todo, deleteTodo }: DeletionDialogProps) {
                                         Are you sure you want to delete this? This action cannot be undone.
                                     </p>
 
-                                    <p className="dialog-todo-text">{todo.text}</p>
+                                    <p className="dialog-todo-text">{todo.title}</p>
                                 </div>
                             </div>
                         </div>
 
                         <div className="dialog-footer">
                             <button
-                                onClick={() => deleteTodo(todo.id)}
+                                onClick={() => deleteTodo(todo.todoId)}
                                 className="dialog-btn-danger"
                                 type="button"
                             >

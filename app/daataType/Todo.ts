@@ -1,7 +1,7 @@
 export interface Todo {
-    id: number;
-    text: string;
+    todoId: number;
+    title: string;
     content: string;
-    completed: boolean;
+    statusCode: string;
     remindTimestamp: number | null;
 }

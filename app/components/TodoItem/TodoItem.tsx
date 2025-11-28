@@ -1,4 +1,4 @@
-import {Todo} from "../../types";
+import {Todo} from "../../daataType/Todo";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
@@ -18,23 +18,23 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
 
     const [open, setOpen] = useState(false);
 
-    const tooltipMark = todo.completed ? "Mark as active" : "Mark as completed";
+    const tooltipMark = todo.statusCode === 'Incomplete' ? "Mark as active" : "Mark as completed";
 
     return (
         <li className="li-item">
             <Tooltip title={todo.content} arrow placement="auto">
-                <span className={todo.completed ? "text-linethrough" : "text-normal"}>
-                    {todo.text}
+                <span className={todo.statusCode === 'Complete' ? "text-linethrough" : "text-normal"}>
+                    {todo.title}
                 </span>
             </Tooltip>
 
             <div className="flex gap-2">
                 <Tooltip title={tooltipMark} placement="top" arrow>
                     <button
-                        onClick={() => toggleTodo(todo.id)}
+                        onClick={() => toggleTodo(todo.todoId)}
                         className="btn-primary"
                     >
-                        {todo.completed ? <RotateLeftIcon/> : <DoneOutlineIcon/>}
+                        {todo.statusCode === 'Complete' ? <RotateLeftIcon/> : <DoneOutlineIcon/>}
                     </button>
                 </Tooltip>
 

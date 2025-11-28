@@ -1,4 +1,4 @@
-import {Todo} from "../types";
+import {Todo} from "../daataType/Todo";
 import TodoItem from "./TodoItem/TodoItem";
 import {useFilterStore} from "../services/FilterStore";
 import {FilterType} from "../services/dataType/FilterTypes";
@@ -27,7 +27,7 @@ function TodoList({todos, toggleTodo, deleteTodo}: TodoListProps) {
         <ul>
             {todos.length === 0 && divContent}
             {todos.map(todo => (
-                <TodoItem key={todo.id} todo={todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo}></TodoItem>
+                <TodoItem key={todo.todoId} todo={todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo}></TodoItem>
             ))}
         </ul>
     );

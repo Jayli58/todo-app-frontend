@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import {Todo} from "../types";
+import {Todo} from "../daataType/Todo";
 
 interface SearchTodoProps {
     searchTodo: (text: string) => Todo[];

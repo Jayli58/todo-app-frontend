@@ -1,7 +1,9 @@
 import {useEffect, useState} from "react";
-import {Todo} from "../types";
+import {Todo} from "../daataType/Todo";
 import {useFilterStore} from "../services/FilterStore";
 import {FilterType} from "../services/dataType/FilterTypes";
+import {useAuth} from "react-oidc-context";
+import {fetchTodos} from "../services/TodoService";
 
 
 export function useTodos() {
@@ -9,6 +11,24 @@ export function useTodos() {
     const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
 
     const filter = useFilterStore(s => s.filter);
+    const auth = useAuth();
+
+    // Load todos from backend once user is authenticated
+    useEffect(() => {
+        if (!auth.isAuthenticated || !auth.user) return;
+
+        const token = auth.user.id_token;
+
+        if (token != null) {
+            fetchTodos(token)
+                .then((res: any) => {
+                    console.log(res);
+                    return setTodos(res);
+                })
+                .catch(console.error);
+        }
+
+    }, [auth.isAuthenticated, auth.user]);  // runs when login finishes
 
     // update upon changes on todos or filter
     useEffect(() => {
@@ -17,17 +37,17 @@ export function useTodos() {
 
     const addTodo = (text: string, content: string) => {
         const newTodo = {
-            id: Date.now(),
-            text: text,
+            todoId: Date.now(),
+            title: text,
             content: content,
-            completed: false,
+            statusCode: 'Incomplete',
             remindTimestamp: null
         }
         setTodos([newTodo, ...todos]);
     }
 
     const deleteTodo = (id: number) => {
-        setTodos(todos.filter(todo => todo.id !== id));
+        setTodos(todos.filter(todo => todo.todoId !== id));
     }
 
     const searchTodo = (text: string) => {
@@ -41,7 +61,7 @@ export function useTodos() {
 
         setFilteredTodos(
             todos.filter(todo =>
-                todo.text.toLowerCase().includes(lower) ||
+                todo.title.toLowerCase().includes(lower) ||
                 todo.content.toLowerCase().includes(lower)
             )
         );
@@ -49,8 +69,8 @@ export function useTodos() {
 
     const toggleTodo = (id: number) => {
         setTodos(todos.map(todo => {
-            if (todo.id === id) {
-                todo.completed = !todo.completed;
+            if (todo.todoId === id) {
+                todo.statusCode = 'Incomplete';
             }
             return todo;
         }))
@@ -58,7 +78,7 @@ export function useTodos() {
 
     const setReminder = (id: number, timestamp: number | null) => {
         setTodos(todos.map(todo => {
-            if (todo.id === id) {
+            if (todo.todoId === id) {
                 todo.remindTimestamp = timestamp;
             }
             return todo;
@@ -70,9 +90,9 @@ export function useTodos() {
 
         switch (filter) {
             case FilterType.COMPLETED:
-                return list.filter(todo => todo.completed);
+                return list.filter(todo => todo.statusCode === 'Complete');
             case FilterType.ACTIVE:
-                return list.filter(todo => !todo.completed);
+                return list.filter(todo => todo.statusCode === 'Incomplete');
             default:
                 return list;
         }
