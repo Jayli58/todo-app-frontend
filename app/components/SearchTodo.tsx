@@ -15,7 +15,7 @@ function SearchTodo({searchTodo}: SearchTodoProps) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="flex items-center gap-3 mt-6 mb-6">
+        <form onSubmit={handleSubmit} className="search-bar">
             <input
                 type="text"
                 value={text}

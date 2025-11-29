@@ -20,6 +20,7 @@ function TodoFilter(todoFilterProps: TodoFilterProps) {
         '& .MuiBadge-badge': {
             right: -10,
             top: -15,
+            backgroundColor: 'var(--color-secondary)',
         },
     }));
 

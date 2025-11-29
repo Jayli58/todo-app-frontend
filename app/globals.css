@@ -3,6 +3,12 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --color-primary: #10b981;
+  --color-primary-hover: #059669;
+  --color-secondary: #00A1E4;
+  --color-secondary-hover: #3C79B4;
+  --color-danger: #ef4444;
+  --color-danger-hover: #dc2626;
 }
 
 @theme inline {
@@ -34,32 +40,53 @@ body {
 
   .mat-card {
     @apply max-w-xl mx-auto mt-10 rounded-xl bg-white dark:bg-gray-800
-    p-8 shadow-lg ring-1 ring-gray-900/5;
+    pt-4 pb-8 px-8 shadow-lg ring-1 ring-gray-900/5;
+  }
+
+  .search-bar {
+    @apply flex items-center gap-3 mt-4 mb-4;
   }
 
   .btn-create {
-    @apply rounded-lg bg-indigo-600 px-4 py-2 font-medium text-white
-    shadow hover:bg-indigo-700 focus:outline-none
-    cursor-pointer;
+    @apply rounded-lg px-4 py-2 font-medium text-white shadow focus:outline-none cursor-pointer;
+    background-color: var(--color-secondary);
+  }
+
+  .btn-create:hover {
+    background-color: var(--color-secondary-hover);
   }
 
   .btn-primary {
-    @apply rounded-lg bg-emerald-500 px-3 py-1 font-medium text-white
-    shadow hover:bg-emerald-600 focus:outline-none
+    @apply rounded-lg px-3 py-1 font-medium text-white
+    shadow focus:outline-none
     /*focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2*/
     cursor-pointer;
+    background-color: var(--color-primary);
+  }
+
+  .btn-primary:hover {
+    background-color: var(--color-primary-hover);
   }
 
   .btn-secondary {
-    @apply rounded-lg bg-blue-500 px-3 py-1 font-medium text-white
-    shadow hover:bg-blue-600 focus:outline-none
+    @apply rounded-lg px-3 py-1 font-medium text-white
+    shadow focus:outline-none
     /*focus:ring-2 focus:ring-blue-500 focus:ring-offset-2*/
     cursor-pointer;
+    background-color: var(--color-secondary);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--color-secondary-hover);
   }
 
   .btn-danger {
-    @apply rounded-lg bg-red-500 px-3 py-1 text-white cursor-pointer
-    hover:bg-red-600 shadow-sm;
+    @apply rounded-lg px-3 py-1 text-white cursor-pointer shadow-sm;
+    background-color: var(--color-danger);
+  }
+
+  .btn-danger:hover {
+    background-color: var(--color-danger-hover);
   }
 
   .btn-filter-inactive {
@@ -80,8 +107,12 @@ body {
   .btn-new-create {
     @apply inline-flex items-center justify-center
     px-3 py-1 rounded-md text-sm font-semibold text-white
-    bg-indigo-600 hover:bg-indigo-700
     transition cursor-pointer;
+    background-color: var(--color-secondary);
+  }
+
+  .btn-new-create:hover {
+    background-color: var(--color-secondary-hover);
   }
 
   .btn-text {
@@ -117,7 +148,7 @@ body {
   }
 
   .h1-tag {
-    @apply text-3xl font-bold mb-6;
+    @apply text-3xl font-bold;
   }
 
   /* --- Dialog Wrapper --- */
@@ -186,15 +217,24 @@ body {
 
   /* --- Footer Buttons --- */
   .dialog-btn-danger {
-    @apply inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-1
-    text-sm font-semibold text-white shadow-xs hover:bg-red-500
+    @apply inline-flex w-full justify-center rounded-md px-3 py-1
+    text-sm font-semibold text-white shadow-xs
     sm:ml-3 sm:w-24 cursor-pointer my-2;
+    background-color: var(--color-danger);
+  }
+
+  .dialog-btn-danger:hover {
+    background-color: var(--color-danger-hover);
   }
 
   .dialog-btn-secondary {
-    @apply inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-1
-    text-sm font-semibold text-white shadow-xs hover:bg-blue-500
-    sm:ml-3 sm:w-24 cursor-pointer my-2;
+    @apply inline-flex w-full justify-center rounded-md px-3 py-1
+    text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-24 cursor-pointer my-2;
+    background-color: var(--color-secondary);
+  }
+
+  .dialog-btn-secondary:hover {
+    background-color: var(--color-secondary-hover);
   }
 
   .dialog-btn-cancel {
@@ -204,7 +244,12 @@ body {
   }
 
   .MuiSnackbar-root .MuiPaper-root {
-    opacity: 0.8 !important;
+    opacity: 0.75 !important;
+  }
+
+  .user-tag {
+    @apply flex items-center gap-2 text-white font-bold px-3 py-1 mb-4 rounded-md w-fit;
+    background-color: var(--color-secondary);
   }
 }
 

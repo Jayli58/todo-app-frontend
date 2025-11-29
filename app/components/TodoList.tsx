@@ -24,7 +24,7 @@ function TodoList({todos, toggleTodo, deleteTodo}: TodoListProps) {
     );
 
     return (
-        <ul>
+        <ul className="mb-3">
             {todos.length === 0 && divContent}
             {todos.map(todo => (
                 <TodoItem key={todo.todoId} todo={todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo}></TodoItem>
