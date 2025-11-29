@@ -5,8 +5,8 @@ import {FilterType} from "../dataType/FilterTypes";
 
 interface TodoListProps {
     todos: Todo[];
-    toggleTodo: (id: number) => void;
-    deleteTodo: (id: number) => void;
+    toggleTodo: (todoId: string) => void;
+    deleteTodo: (todoId: string) => void;
 }
 
 function TodoList({todos, toggleTodo, deleteTodo}: TodoListProps) {

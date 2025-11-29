@@ -10,7 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 
 interface TodoItemProps {
     todo: Todo;
-    toggleTodo: (id: number) => void;
+    toggleTodo: (todoId: string) => void;
     deleteTodo: (id: number) => void;
 }
 

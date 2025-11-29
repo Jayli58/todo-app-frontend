@@ -3,7 +3,7 @@ import {Todo} from "../dataType/Todo";
 import {useFilterStore} from "../store/FilterStore";
 import {FilterType} from "../dataType/FilterTypes";
 import {useAuth} from "react-oidc-context";
-import {fetchTodos, updateTodoStatus} from "../shared/TodoService";
+import {createTodoApi, deleteTodoApi, fetchTodosApi, searchTodosApi, updateTodoStatusApi} from "../shared/TodoService";
 
 
 export function useTodos() {
@@ -17,7 +17,7 @@ export function useTodos() {
     useEffect(() => {
         if (!auth.isAuthenticated || !auth.user) return;
 
-        fetchTodos()
+        fetchTodosApi()
             .then(setTodos)
             .catch(console.error);
 
@@ -28,36 +28,65 @@ export function useTodos() {
         setFilteredTodos(todos);
     }, [todos, filter]);
 
-    const addTodo = (text: string, content: string) => {
-        const newTodo = {
-            todoId: '',
-            title: text,
-            content: content,
-            statusCode: 'Incomplete',
-            remindTimestamp: null
+    const addTodo = async (title: string, content: string) => {
+        try {
+            const newTodo = await createTodoApi(title, content);
+
+            // Update local state with backend response
+            setTodos([newTodo, ...todos]);
+        } catch (e) {
+            // todo: pop up window for error
+            console.error("Creation failed:", e);
         }
-        setTodos([newTodo, ...todos]);
     }
 
-    const deleteTodo = (todoId: string) => {
-        setTodos(todos.filter(todo => todo.todoId !== todoId));
+    const deleteTodo = async (todoId: string) => {
+        try {
+            // 1. Send deletion to backend
+            const success = await deleteTodoApi(todoId);
+
+            // 2. Update local state with backend response
+            if (success) {
+                setTodos(todos.filter(todo => todo.todoId !== todoId));
+            } else {
+                console.error("Backend returned false, deletion failed.");
+            }
+
+        } catch (e) {
+            // todo: pop up window for deletion success or failure
+            console.error("Deletion failed:", e);
+        }
     }
 
-    const searchTodo = (text: string) => {
-        if (!text.trim()) {
-            // Reset search
-            setFilteredTodos(todos);
-            return;
-        }
+    const searchTodo = async (text: string) => {
+        // if (!text.trim()) {
+        //     // Reset search
+        //     setFilteredTodos(todos);
+        //     return;
+        // }
 
         const lower = text.toLowerCase();
 
-        setFilteredTodos(
-            todos.filter(todo =>
-                todo.title.toLowerCase().includes(lower) ||
-                todo.content.toLowerCase().includes(lower)
-            )
-        );
+        try {
+            const searchedTodos = await searchTodosApi(text);
+
+            if (searchedTodos.length === 0) {
+                console.error("No matching todos found.");
+            }
+
+            // Update local state with backend response
+            setTodos(searchedTodos);
+
+            setFilteredTodos(
+                todos.filter(todo =>
+                    todo.title.toLowerCase().includes(lower) ||
+                    todo.content.toLowerCase().includes(lower)
+                )
+            );
+        } catch (e) {
+            // todo: pop up window for error
+            console.error("Search failed:", e);
+        }
     }
 
     const toggleTodo = async (todoId: string) => {
@@ -69,7 +98,7 @@ export function useTodos() {
 
         try {
             // 1. Send update to backend
-            const updated = await updateTodoStatus(todoId, newStatus);
+            const updated = await updateTodoStatusApi(todoId, newStatus);
 
             // 2. Update local state with backend response
             setTodos(todos.map(t =>
@@ -77,15 +106,9 @@ export function useTodos() {
             ));
 
         } catch (e) {
+            // todo: pop up window for error
             console.error("Toggle failed:", e);
         }
-
-        // setTodos(todos.map(todo => {
-        //     if (todo.todoId === todoId) {
-        //         todo.statusCode = todo.statusCode === 'Incomplete' ? 'Complete' : 'Incomplete';
-        //     }
-        //     return todo;
-        // }))
     }
 
     const setReminder = (todoId: string, timestamp: number | null) => {
