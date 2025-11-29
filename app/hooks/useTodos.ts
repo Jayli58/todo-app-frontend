@@ -6,7 +6,7 @@ import {useAuth} from "react-oidc-context";
 import {createTodoApi, deleteTodoApi, fetchTodosApi, searchTodosApi, updateTodoStatusApi} from "../shared/TodoService";
 
 
-export function useTodos() {
+export function useTodos(notify?: (type: "success" | "error", msg: string) => void) {
     const [todos, setTodos] = useState<Todo[]>([]);
     const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
 
@@ -34,9 +34,12 @@ export function useTodos() {
 
             // Update local state with backend response
             setTodos([newTodo, ...todos]);
+            // Show success snackbar
+            notify?.("success", "Todo created successfully!");
         } catch (e) {
-            // todo: pop up window for error
             console.error("Creation failed:", e);
+            // Show error snackbar
+            notify?.("error", "Failed to create todo! " + e.message);
         }
     }
 
@@ -48,22 +51,21 @@ export function useTodos() {
             // 2. Update local state with backend response
             if (success) {
                 setTodos(todos.filter(todo => todo.todoId !== todoId));
+                // Show success snackbar
+                notify?.("success", "Todo deleted successfully!");
             } else {
-                console.error("Backend returned false, deletion failed.");
+                // console.error("Backend returned false, deletion failed.");
+                // Show error snackbar
+                notify?.("error", "Failed to delete todo!");
             }
-
         } catch (e) {
-            // todo: pop up window for deletion success or failure
-            console.error("Deletion failed:", e);
+            // console.error("Deletion failed:", e);
+            // Show error snackbar
+            notify?.("error", "Failed to create todo! " + e.message);
         }
     }
 
     const searchTodo = async (text: string) => {
-        // if (!text.trim()) {
-        //     // Reset search
-        //     setFilteredTodos(todos);
-        //     return;
-        // }
 
         const lower = text.toLowerCase();
 
@@ -71,7 +73,10 @@ export function useTodos() {
             const searchedTodos = await searchTodosApi(text);
 
             if (searchedTodos.length === 0) {
-                console.error("No matching todos found.");
+                // console.error("No matching todos found.");
+                // Show error snackbar
+                notify?.("error", "No matching todos found.");
+                return;
             }
 
             // Update local state with backend response
@@ -83,9 +88,13 @@ export function useTodos() {
                     todo.content.toLowerCase().includes(lower)
                 )
             );
+
+            // Show success snackbar
+            notify?.("success", "Here are the searched results!");
         } catch (e) {
-            // todo: pop up window for error
-            console.error("Search failed:", e);
+            // console.error("Search failed:", e);
+            // Show error snackbar
+            notify?.("error", "Search failed! " + e.message);
         }
     }
 
@@ -105,9 +114,12 @@ export function useTodos() {
                 t.todoId === todoId ? updated : t
             ));
 
+            // Show success snackbar
+            notify?.("success", "Successfully marked as " + newStatus);
         } catch (e) {
-            // todo: pop up window for error
-            console.error("Toggle failed:", e);
+            // console.error("Toggle failed:", e);
+            // Show error snackbar
+            notify?.("error", "Toggle failed! " + e.message);
         }
     }
 

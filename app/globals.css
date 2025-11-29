@@ -202,5 +202,9 @@ body {
     text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300
     hover:bg-gray-100 sm:ml-3 sm:w-24 cursor-pointer my-2;
   }
+
+  .MuiSnackbar-root .MuiPaper-root {
+    opacity: 0.8 !important;
+  }
 }
 

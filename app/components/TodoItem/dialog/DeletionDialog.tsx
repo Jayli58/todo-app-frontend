@@ -2,71 +2,84 @@ import {Todo} from "../../../dataType/Todo";
 
 interface DeletionDialogProps {
     todo: Todo;
-    deleteTodo: (id: number) => void;
+    open: boolean;
+    onClose: () => void;
+    deleteTodo: (todoId: string) => void;
 }
 
-function DeletionDialog({ todo, deleteTodo }: DeletionDialogProps) {
+function DeletionDialog({ todo, open, onClose, deleteTodo }: DeletionDialogProps) {
     return (
-        <el-dialog>
-            <dialog id="deletion-dialog" aria-labelledby="dialog-title" className="dialog-wrapper">
-                <el-dialog-backdrop className="dialog-backdrop" />
+        <dialog open={open} onClose={onClose} id="deletion-dialog" aria-labelledby="dialog-title" className="dialog-wrapper">
+            <el-dialog-backdrop className="dialog-backdrop" />
 
-                <div tabIndex={0} className="dialog-container-top">
-                    <el-dialog-panel className="dialog-panel">
-                        <div className="px-6 py-4">
-                            <div className="sm:flex sm:items-start">
-                                <div className="dialog-icon">
-                                    <svg
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="1.5"
-                                        aria-hidden="true"
-                                        className="size-6 text-red-600"
-                                    >
-                                        <path
-                                            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217
+            <div tabIndex={0} className="dialog-container-top">
+                <el-dialog-panel className="dialog-panel">
+                    <div className="px-6 py-4">
+                        <div className="sm:flex sm:items-start">
+                            <div className="dialog-icon">
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    aria-hidden="true"
+                                    className="size-6 text-red-600"
+                                >
+                                    <path
+                                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217
                       3.374 1.948 3.374h14.71c1.73 0
                       2.813-1.874 1.948-3.374L13.949
                       3.378c-.866-1.5-3.032-1.5-3.898
                       0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                </div>
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
+                            </div>
 
-                                <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                    <h3 id="dialog-title" className="dialog-title">
-                                        Delete record
-                                    </h3>
+                            <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                                <h3 id="dialog-title" className="dialog-title">
+                                    Delete record
+                                </h3>
 
-                                    <p className="dialog-message">
-                                        Are you sure you want to delete this? This action cannot be undone.
-                                    </p>
+                                <p className="dialog-message">
+                                    Are you sure you want to delete this? This action cannot be undone.
+                                </p>
 
-                                    <p className="dialog-todo-text">{todo.title}</p>
-                                </div>
+                                {/*<p className="dialog-todo-text">{todo.title}</p>*/}
+
+                                <p className="dialog-todo-text">
+                                    <span className="inline-block w-20">Title:</span>
+                                    {todo.title}
+                                </p>
+
+                                <p className="dialog-todo-text mb-1">
+                                    <span className="inline-block w-20">Content:</span>
+                                    {todo.content}
+                                </p>
                             </div>
                         </div>
+                    </div>
 
-                        <div className="dialog-footer">
-                            <button
-                                onClick={() => deleteTodo(todo.todoId)}
-                                className="dialog-btn-danger"
-                                type="button"
-                            >
-                                Delete
-                            </button>
+                    <div className="dialog-footer">
+                        <button
+                            onClick={() => deleteTodo(todo.todoId)}
+                            className="dialog-btn-danger"
+                            type="button"
+                        >
+                            Delete
+                        </button>
 
-                            <button command="close" commandfor="deletion-dialog" type="button" className="dialog-btn-cancel">
-                                Cancel
-                            </button>
-                        </div>
-                    </el-dialog-panel>
-                </div>
-            </dialog>
-        </el-dialog>
+                        <button
+                            onClick={() => onClose()}
+                            type="button"
+                            className="dialog-btn-cancel">
+                            Cancel
+                        </button>
+                    </div>
+                </el-dialog-panel>
+            </div>
+        </dialog>
     );
 }
 

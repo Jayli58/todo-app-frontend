@@ -3,7 +3,7 @@
 import { createContext, useContext } from "react";
 
 interface ReminderContextType {
-    setReminder: (id: number, timestamp: number | null) => void;
+    setReminder: (todoId: string, timestamp: number | null) => void;
 }
 
 export const ReminderContext = createContext<ReminderContextType>({

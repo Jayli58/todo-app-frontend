@@ -21,7 +21,7 @@ function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
     const { setReminder } = useReminder();
 
     const handleSave = (value: number | null) => {
-        setReminder(todo.id, value);
+        setReminder(todo.todoId, value);
         onClose();
     };
 
@@ -75,7 +75,7 @@ function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
 
                                 <p className="dialog-todo-text mb-1">
                                     <span className="inline-block w-20">Title:</span>
-                                    {todo.text}
+                                    {todo.title}
                                 </p>
 
                                 <p className="dialog-todo-text mb-1">

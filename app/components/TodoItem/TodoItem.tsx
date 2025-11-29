@@ -11,12 +11,13 @@ import Tooltip from '@mui/material/Tooltip';
 interface TodoItemProps {
     todo: Todo;
     toggleTodo: (todoId: string) => void;
-    deleteTodo: (id: number) => void;
+    deleteTodo: (todoId: string) => void;
 }
 
 function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
 
-    const [open, setOpen] = useState(false);
+    const [remainderOpen, setRemainderOpen] = useState(false);
+    const [deleteOpen, setDeleteOpen] = useState(false);
 
     const tooltipMark = todo.statusCode === 'Incomplete' ? "Mark as completed" : "Mark as active";
 
@@ -48,24 +49,23 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
 
                 <Tooltip title="Set email notification" placement="top" arrow>
                     <button
-                        onClick={() => setOpen(true)}
+                        onClick={() => setRemainderOpen(true)}
                         className="btn-secondary"
                     >
                         <AccessAlarmIcon />
                     </button>
                 </Tooltip>
-                <TimePickerDialog todo={todo} open={open} onClose={() => setOpen(false)} />
+                <TimePickerDialog todo={todo} open={remainderOpen} onClose={() => setRemainderOpen(false)} />
 
                 <Tooltip title="Delete" placement="top" arrow>
                     <button
-                        // onClick={() => deleteTodo(todo.id)}
-                        command="show-modal" commandfor="deletion-dialog"
+                        onClick={() => setDeleteOpen(true)}
                         className="btn-danger"
                     >
                         <DeleteOutlinedIcon/>
                     </button>
                 </Tooltip>
-                <DeletionDialog todo={todo} deleteTodo={deleteTodo} />
+                <DeletionDialog todo={todo} open={deleteOpen} onClose={() => setDeleteOpen(false)} deleteTodo={deleteTodo} />
 
             </div>
         </li>
