@@ -8,6 +8,7 @@ interface DeletionDialogProps {
 }
 
 function DeletionDialog({ todo, open, onClose, deleteTodo }: DeletionDialogProps) {
+
     return (
         <dialog open={open} onClose={onClose} id="deletion-dialog" aria-labelledby="dialog-title" className="dialog-wrapper">
             <el-dialog-backdrop className="dialog-backdrop" />

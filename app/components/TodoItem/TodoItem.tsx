@@ -7,6 +7,7 @@ import DeletionDialog from "./dialog/DeletionDialog";
 import TimePickerDialog from "./dialog/TimePickerDialog";
 import {useState} from "react";
 import Tooltip from '@mui/material/Tooltip';
+import {useDialogStore} from "../../store/dialogStore";
 
 interface TodoItemProps {
     todo: Todo;
@@ -18,6 +19,28 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
 
     const [remainderOpen, setRemainderOpen] = useState(false);
     const [deleteOpen, setDeleteOpen] = useState(false);
+
+    const setDialogOpen = useDialogStore((s) => s.setDialogOpen);
+
+    const handleOpenDelete = () => {
+        setDeleteOpen(true);
+        setDialogOpen(true);
+    };
+
+    const handleCloseDelete = () => {
+        setDeleteOpen(false);
+        setDialogOpen(false);
+    };
+
+    const handleOpenReminder = () => {
+        setRemainderOpen(true);
+        setDialogOpen(true);
+    };
+
+    const handleCloseReminder = () => {
+        setRemainderOpen(false);
+        setDialogOpen(false);
+    };
 
     const tooltipMark = todo.statusCode === 'Incomplete' ? "Mark as completed" : "Mark as active";
 
@@ -49,23 +72,23 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
 
                 <Tooltip title="Set email notification" placement="top" arrow>
                     <button
-                        onClick={() => setRemainderOpen(true)}
+                        onClick={handleOpenReminder}
                         className="btn-secondary"
                     >
                         <AccessAlarmIcon />
                     </button>
                 </Tooltip>
-                <TimePickerDialog todo={todo} open={remainderOpen} onClose={() => setRemainderOpen(false)} />
+                <TimePickerDialog todo={todo} open={remainderOpen} onClose={handleCloseReminder} />
 
                 <Tooltip title="Delete" placement="top" arrow>
                     <button
-                        onClick={() => setDeleteOpen(true)}
+                        onClick={handleOpenDelete}
                         className="btn-danger"
                     >
                         <DeleteOutlinedIcon/>
                     </button>
                 </Tooltip>
-                <DeletionDialog todo={todo} open={deleteOpen} onClose={() => setDeleteOpen(false)} deleteTodo={deleteTodo} />
+                <DeletionDialog todo={todo} open={deleteOpen} onClose={handleCloseDelete} deleteTodo={deleteTodo} />
 
             </div>
         </li>

@@ -4,11 +4,17 @@ import {useFilterStore} from "../store/FilterStore";
 import {FilterType} from "../dataType/FilterTypes";
 import {useAuth} from "react-oidc-context";
 import {createTodoApi, deleteTodoApi, fetchTodosApi, searchTodosApi, updateTodoStatusApi} from "../shared/TodoService";
+import {TodoFilterProps} from "../components/TodoFilter";
 
 
 export function useTodos(notify?: (type: "success" | "error", msg: string) => void) {
     const [todos, setTodos] = useState<Todo[]>([]);
     const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
+    const [badgeNums, setBadgeNums] = useState<TodoFilterProps>({
+        totalNum: 0,
+        activeNum: 0,
+        completedNum: 0
+    });
 
     const filter = useFilterStore(s => s.filter);
     const auth = useAuth();
@@ -27,6 +33,19 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
     useEffect(() => {
         setFilteredTodos(todos);
     }, [todos, filter]);
+
+    // badge num for filter btn
+    useEffect(() => {
+        const total = todos.length;
+        const active = todos.filter(t => t.statusCode === "Incomplete").length;
+        const completed = todos.filter(t => t.statusCode === "Complete").length;
+
+        setBadgeNums({
+            totalNum: total,
+            activeNum: active,
+            completedNum: completed,
+        });
+    }, [todos]);
 
     const addTodo = async (title: string, content: string) => {
         try {
@@ -152,6 +171,7 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
         deleteTodo,
         toggleTodo,
         setReminder,
-        searchTodo
+        searchTodo,
+        badgeNums
     };
 }

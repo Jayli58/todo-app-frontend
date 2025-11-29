@@ -1,5 +1,5 @@
 "use client";
-import TodoFilter from "./components/TodoFilter";
+import TodoFilter, {TodoFilterProps} from "./components/TodoFilter";
 import TodoList from "./components/TodoList";
 import {ReminderContext} from "./context/RemainderContext";
 import CreateTodo from "./components/CreateTodo/CreateTodo";
@@ -8,11 +8,13 @@ import {useIdentityStore} from "./store/IdentityStore";
 import {useTodos} from "./hooks/useTodos";
 import {useState} from "react";
 import SharedSnackbar, {SnackbarType} from "./shared/components/SharedSnackbar";
+import {useDialogStore} from "./store/dialogStore";
 
 
 export default function Home() {
     // get auth info
     const identity = useIdentityStore(i => i.identity);
+    const isDialogOpen = useDialogStore((s) => s.isDialogOpen);
 
     const [snackbar, setSnackbar] = useState({
         open: false,
@@ -33,12 +35,14 @@ export default function Home() {
 
     // trigger todo hooks
     const {
+        todos,
         filteredTodos,
         addTodo,
         deleteTodo,
         toggleTodo,
         setReminder,
-        searchTodo
+        searchTodo,
+        badgeNums
     } = useTodos(notify);
 
     return (
@@ -49,7 +53,18 @@ export default function Home() {
                 <TodoList todos={filteredTodos} deleteTodo={deleteTodo} toggleTodo={toggleTodo}></TodoList>
                 <div className="flex justify-between">
                     <CreateTodo addTodo={addTodo}></CreateTodo>
-                    <TodoFilter />
+                    <TodoFilter
+                        totalNum={badgeNums.totalNum}
+                        activeNum={badgeNums.activeNum}
+                        completedNum={badgeNums.completedNum}
+                    />
+                    {/*{!isDialogOpen && (*/}
+                    {/*    <TodoFilter*/}
+                    {/*        totalNum={badgeNums.totalNum}*/}
+                    {/*        activeNum={badgeNums.activeNum}*/}
+                    {/*        completedNum={badgeNums.completedNum}*/}
+                    {/*    />*/}
+                    {/*)}*/}
                 </div>
             </div>
 
