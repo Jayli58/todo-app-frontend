@@ -1,7 +1,7 @@
 "use client";
 import TodoFilter from "./components/TodoFilter";
 import TodoList from "./components/TodoList";
-import {ReminderContext} from "./context/RemainderContext";
+import {ReminderContext} from "./context/ReminderContext";
 import CreateTodo from "./components/CreateTodo/CreateTodo";
 import SearchTodo from "./components/SearchTodo";
 import {useIdentityStore} from "./store/IdentityStore";
@@ -43,7 +43,7 @@ export default function Home() {
         badgeNums
     } = useTodos(notify);
 
-    console.log("identity: ", identity?.name);
+    // console.log("identity: ", identity?.name);
 
     return (
         <ReminderContext.Provider value={{ setReminder }}>

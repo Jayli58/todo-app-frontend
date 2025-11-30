@@ -3,7 +3,14 @@ import {Todo} from "../dataType/Todo";
 import {useFilterStore} from "../store/FilterStore";
 import {FilterType} from "../dataType/FilterTypes";
 import {useAuth} from "react-oidc-context";
-import {createTodoApi, deleteTodoApi, fetchTodosApi, searchTodosApi, updateTodoStatusApi} from "../shared/TodoService";
+import {
+    createTodoApi,
+    deleteTodoApi,
+    fetchTodosApi,
+    searchTodosApi,
+    updateTodoStatusApi,
+    UpsertReminder
+} from "../shared/TodoService";
 import {TodoFilterProps} from "../components/TodoFilter";
 
 
@@ -142,13 +149,32 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
         }
     }
 
-    const setReminder = (todoId: string, timestamp: number | null) => {
-        setTodos(todos.map(todo => {
-            if (todo.todoId === todoId) {
-                todo.remindTimestamp = timestamp;
-            }
-            return todo;
-        }))
+    const setReminder = async (todoId: string, timestamp: number | null) => {
+        if (timestamp === null) return;
+
+        try {
+            // call backend api
+            await UpsertReminder(todoId, timestamp);
+
+            // update react state
+            setTodos(todos.map(todo => {
+                if (todo.todoId === todoId) {
+                    todo.remindTimestamp = timestamp;
+                }
+                return todo;
+            }))
+
+            notify?.("success", "Reminder set successfully!");
+
+        } catch (e) {
+            const message =
+                e.response?.data ||              // backend text body
+                e.response?.data?.message ||
+                e.message ||
+                "Unknown error";
+
+            notify?.("error", "Failed to set reminder! " + message);
+        }
     };
 
     const getFilteredTodos = () => {

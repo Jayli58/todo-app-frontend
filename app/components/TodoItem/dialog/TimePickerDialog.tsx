@@ -1,12 +1,9 @@
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import {Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
 import {Todo} from "../../../dataType/Todo";
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import {useEffect, useState} from "react";
-import {useReminder} from "../../../context/RemainderContext";
+import {useReminder} from "../../../context/ReminderContext";
 import dayjs from 'dayjs';
 import {MobileDateTimePicker} from "@mui/x-date-pickers";
 
@@ -26,6 +23,13 @@ function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
     };
 
     const [selectedValue, setSelectedValue] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (open) {
+            setSelectedValue(todo.remindTimestamp);
+            // console.log("todo.remindTimestamp: ", todo.remindTimestamp);
+        }
+    }, [open, todo.remindTimestamp]);
 
     // ESC key closes the dialog
     useEffect(() => {
@@ -66,11 +70,11 @@ function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
 
                             <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                                 <h3 id="dialog-title" className="dialog-title">
-                                    {todo.remindTimestamp === null ? "Set up a remainder" : "Modify the remainder"}
+                                    {todo.remindTimestamp === null ? "Set up a reminder" : "Modify the reminder"}
                                 </h3>
 
                                 <p className="dialog-message">
-                                    A mail will be sent upon the set time.
+                                    An email will be sent upon the set time.
                                 </p>
 
                                 <p className="dialog-todo-text mb-1">
@@ -87,10 +91,11 @@ function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
                                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                                         <MobileDateTimePicker
                                             label="Reminder time"
-                                            value={selectedValue ? dayjs(selectedValue) : null}
+                                            // selectedValue in seconds; dayjs in milli-seconds
+                                            value={selectedValue ? dayjs(selectedValue * 1000) : null}
                                             onChange={(newValue) => {
                                                 if (newValue) {
-                                                    setSelectedValue(newValue.valueOf());
+                                                    setSelectedValue(newValue.unix()); // seconds
                                                 } else {
                                                     setSelectedValue(null);
                                                 }

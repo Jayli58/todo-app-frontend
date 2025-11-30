@@ -35,4 +35,14 @@ export async function searchTodosApi(query: string): Promise<Todo[]> {
     return res.data;
 }
 
+export async function UpsertReminder(todoId: string, remindAtEpoch: number) {
+    const res = await api.put(`/todo/${todoId}/reminder`, {
+        remindAtEpoch: remindAtEpoch
+    });
+
+    return res.data;
+}
+
+
+
 

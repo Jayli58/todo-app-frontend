@@ -17,7 +17,7 @@ interface TodoItemProps {
 
 function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
 
-    const [remainderOpen, setRemainderOpen] = useState(false);
+    const [reminderOpen, setReminderOpen] = useState(false);
     const [deleteOpen, setDeleteOpen] = useState(false);
 
     const setDialogOpen = useDialogStore((s) => s.setDialogOpen);
@@ -33,12 +33,12 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
     };
 
     const handleOpenReminder = () => {
-        setRemainderOpen(true);
+        setReminderOpen(true);
         setDialogOpen(true);
     };
 
     const handleCloseReminder = () => {
-        setRemainderOpen(false);
+        setReminderOpen(false);
         setDialogOpen(false);
     };
 
@@ -78,7 +78,7 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
                         <AccessAlarmIcon />
                     </button>
                 </Tooltip>
-                <TimePickerDialog todo={todo} open={remainderOpen} onClose={handleCloseReminder} />
+                <TimePickerDialog todo={todo} open={reminderOpen} onClose={handleCloseReminder} />
 
                 <Tooltip title="Delete" placement="top" arrow>
                     <button
