@@ -1,5 +1,7 @@
 import {WebStorageStateStore} from "oidc-client-ts";
 
+const isBrowser = typeof window !== "undefined";
+
 export const cognitoAuthConfig = {
     authority: `https://cognito-idp.${process.env.NEXT_PUBLIC_AWS_COGNITO_REGION}.amazonaws.com/${process.env.NEXT_PUBLIC_AWS_COGNITO_POOL_ID}`,
     client_id: process.env.NEXT_PUBLIC_AWS_COGNITO_APP_CLIENT_ID,
@@ -11,4 +13,5 @@ export const cognitoAuthConfig = {
     // onSigninCallback: () => {
     //     window.history.replaceState({}, document.title, window.location.pathname);
     // },
+    userStore: isBrowser ? new WebStorageStateStore({ store: window.localStorage }) : undefined
 };
