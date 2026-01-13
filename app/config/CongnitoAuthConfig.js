@@ -5,4 +5,8 @@ export const cognitoAuthConfig = {
     response_type: "code",
     scope: "openid email profile phone",
     automaticSilentRenew: true,
+    // URL cleanup
+    onSigninCallback: () => {
+        window.history.replaceState({}, document.title, window.location.pathname);
+    },
 };

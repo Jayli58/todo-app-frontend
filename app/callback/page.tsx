@@ -5,8 +5,6 @@ import { useAuth } from "react-oidc-context";
 
 // handle Cognito callback
 export default function Callback() {
-    console.log("callback page tsx!");
-
     const auth = useAuth();
 
     useEffect(() => {
