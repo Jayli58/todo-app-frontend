@@ -11,10 +11,10 @@ function DeletionDialog({ todo, open, onClose, deleteTodo }: DeletionDialogProps
 
     return (
         <dialog open={open} onClose={onClose} id="deletion-dialog" aria-labelledby="dialog-title" className="dialog-wrapper">
-            <el-dialog-backdrop className="dialog-backdrop" />
+            <div className="dialog-backdrop" />
 
             <div tabIndex={0} className="dialog-container-top">
-                <el-dialog-panel className="dialog-panel">
+                <div className="dialog-panel">
                     <div className="px-6 py-4">
                         <div className="sm:flex sm:items-start">
                             <div className="dialog-icon">
@@ -78,7 +78,7 @@ function DeletionDialog({ todo, open, onClose, deleteTodo }: DeletionDialogProps
                             Cancel
                         </button>
                     </div>
-                </el-dialog-panel>
+                </div>
             </div>
         </dialog>
     );

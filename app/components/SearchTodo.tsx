@@ -3,15 +3,16 @@ import SearchIcon from "@mui/icons-material/Search";
 import {Todo} from "../dataType/Todo";
 
 interface SearchTodoProps {
-    searchTodo: (text: string) => Todo[];
+    // searchTodo: (text: string) => Todo[];
+    searchTodo: (text: string) => Promise<void>;
 }
 
 function SearchTodo({searchTodo}: SearchTodoProps) {
     const [text, setText] = useState('');
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        searchTodo(text);
+        await searchTodo(text);
     }
 
     return (

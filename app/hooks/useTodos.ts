@@ -62,7 +62,7 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
             setTodos([newTodo, ...todos]);
             // Show success snackbar
             notify?.("success", "Todo created successfully!");
-        } catch (e) {
+        } catch (e: any) {
             console.error("Creation failed:", e);
             // Show error snackbar
             notify?.("error", "Failed to create todo! " + e.message);
@@ -84,7 +84,7 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
                 // Show error snackbar
                 notify?.("error", "Failed to delete todo!");
             }
-        } catch (e) {
+        } catch (e: any) {
             // console.error("Deletion failed:", e);
             // Show error snackbar
             notify?.("error", "Failed to create todo! " + e.message);
@@ -117,7 +117,7 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
 
             // Show success snackbar
             notify?.("success", "Here are the searched results!");
-        } catch (e) {
+        } catch (e: any) {
             // console.error("Search failed:", e);
             // Show error snackbar
             notify?.("error", "Search failed! " + e.message);
@@ -142,7 +142,7 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
 
             // Show success snackbar
             notify?.("success", "Successfully marked as " + newStatus);
-        } catch (e) {
+        } catch (e: any) {
             // console.error("Toggle failed:", e);
             // Show error snackbar
             notify?.("error", "Toggle failed! " + e.message);
@@ -166,7 +166,7 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
 
             notify?.("success", "Reminder set successfully!");
 
-        } catch (e) {
+        } catch (e: any) {
             const message =
                 e.response?.data ||              // backend text body
                 e.response?.data?.message ||

@@ -17,7 +17,7 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
     useEffect(() => {
         if (!open) return;
 
-        const handler = (e) => {
+        const handler = (e: KeyboardEvent) => {
             if (e.key === "Escape") {
                 onClose();
             }
@@ -46,10 +46,10 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
 
     return (
         <dialog open={open} onClose={onClose} aria-labelledby="dialog-title" className="dialog-wrapper">
-            <el-dialog-backdrop className="dialog-backdrop" />
+            <div className="dialog-backdrop" />
 
             <div tabIndex={0} className="dialog-container-top">
-                <el-dialog-panel className="dialog-panel">
+                <div className="dialog-panel">
                     <div className="px-6 pt-4">
                         <div className="sm:flex sm:items-start">
                             <div className="dialog-icon-blue">
@@ -133,7 +133,7 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
                             Cancel
                         </button>
                     </div>
-                </el-dialog-panel>
+                </div>
             </div>
         </dialog>
     );
