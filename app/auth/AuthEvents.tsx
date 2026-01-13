@@ -9,14 +9,27 @@ export function AuthEvents() {
 
     const setIdentity = useIdentityStore(s => s.setIdentity);
 
+    // initial user info set
+    useEffect(() => {
+        if (!auth.user) return;
+
+        setIdentity({
+            email: auth.user.profile?.email ?? "",
+            name: auth.user.profile?.name ?? "",
+            idToken: auth.user.id_token ?? "",
+            accessToken: auth.user.access_token ?? "",
+            refreshToken: auth.user.refresh_token ?? "",
+        });
+    }, [auth.user, setIdentity]);
+
     useEffect(() => {
         if (!auth.events) return;
 
-        // fires on login and on silent renew
+        // fires on silent renew
         // extract id info
         const onUserLoaded = (user: User) => {
-            console.log("User state changes... in Auth event");
-            console.log("user id token: ", user.id_token);
+            // console.log("User state changes... in Auth event");
+            // console.log("user id token: ", user.id_token);
 
             setIdentity({
                 email: user.profile?.email ?? "",

@@ -2,14 +2,12 @@
 
 import {AuthProvider, useAuth} from "react-oidc-context";
 import {cognitoAuthConfig} from "../config/CongnitoAuthConfig";
-import {useIdentityStore} from "../store/IdentityStore";
 import {useEffect} from "react";
 import {AuthEvents} from "./AuthEvents";
 import {AuthSetup} from "../shared/api/AuthSetup";
 
 function CognitoAuthGuard({ children }: { children: React.ReactNode }) {
     const auth = useAuth();
-    const setIdentity = useIdentityStore(s => s.setIdentity);
 
     // auto-redirect when unauthenticated
     useEffect(() => {
@@ -17,20 +15,6 @@ function CognitoAuthGuard({ children }: { children: React.ReactNode }) {
             auth.signinRedirect();
         }
     }, [auth.isLoading, auth.isAuthenticated]);
-
-    // extract id info
-    // useEffect(() => {
-    //     console.log("User state changes... in AuthProvider");
-    //     if (auth.isAuthenticated && auth.user) {
-    //         setIdentity({
-    //             email: auth.user.profile?.email ?? "",
-    //             name: auth.user.profile?.name ?? "",
-    //             idToken: auth.user.id_token ?? "",
-    //             accessToken: auth.user.access_token ?? "",
-    //             refreshToken: auth.user.refresh_token ?? "",
-    //         });
-    //     }
-    // }, [auth.isAuthenticated, auth.user, setIdentity]);
 
     if (auth.isLoading) return <div>Loading…</div>;
     if (!auth.isAuthenticated) return <div>Redirecting…</div>;

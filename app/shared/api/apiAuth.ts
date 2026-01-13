@@ -1,8 +1,9 @@
 import { api } from "./api";
+import {useIdentityStore} from "../../store/IdentityStore";
 
-export function setupAxiosInterceptors(auth: any) {
+export function setupAxiosInterceptors() {
     api.interceptors.request.use((config) => {
-        const token = auth.user?.id_token;
+        const token = useIdentityStore.getState().identity?.idToken;
 
         if (token) {
             config.headers = config.headers ?? {};

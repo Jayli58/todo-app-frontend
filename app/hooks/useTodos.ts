@@ -12,6 +12,7 @@ import {
     UpsertReminder
 } from "../shared/TodoService";
 import {TodoFilterProps} from "../components/TodoFilter";
+import {useIdentityStore} from "../store/IdentityStore";
 
 
 export function useTodos(notify?: (type: "success" | "error", msg: string) => void) {
@@ -26,15 +27,19 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
     const filter = useFilterStore(s => s.filter);
     const auth = useAuth();
 
+    const idToken = useIdentityStore(s => s.identity?.idToken);
+
     // Load todos from backend once user is authenticated
     useEffect(() => {
-        if (!auth.isAuthenticated || !auth.user) return;
+        // if (!auth.isAuthenticated || !auth.user) return;
+        // console.log("auth?", auth.isAuthenticated, "token?", !!idToken);
+        if (!idToken) return;
 
         fetchTodosApi()
             .then(setTodos)
             .catch(console.error);
 
-    }, [auth.isAuthenticated]);
+    }, [auth.isAuthenticated, idToken]);
 
     // update upon changes on todos or filter
     useEffect(() => {
