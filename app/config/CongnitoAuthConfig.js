@@ -13,5 +13,6 @@ export const cognitoAuthConfig = {
     // onSigninCallback: () => {
     //     window.history.replaceState({}, document.title, window.location.pathname);
     // },
-    userStore: isBrowser ? new WebStorageStateStore({ store: window.localStorage }) : undefined
+    // enable automatic sign-in
+    userStore: new WebStorageStateStore({ store: window.localStorage }),
 };
