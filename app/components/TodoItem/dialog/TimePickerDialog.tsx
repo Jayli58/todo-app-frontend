@@ -74,7 +74,7 @@ function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
                                 </h3>
 
                                 <p className="dialog-message">
-                                    An email will be sent upon the set time.
+                                    An email will be sent upon the set time. Please allow up to 20 minutes of processing delay.
                                 </p>
 
                                 <p className="dialog-todo-text mb-1">

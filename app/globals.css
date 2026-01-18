@@ -207,7 +207,7 @@ body {
 
   /* --- Todo preview text --- */
   .dialog-todo-text {
-    @apply text-sm break-all italic;
+    @apply text-sm break-all;
   }
 
   /* --- Footer Bar --- */

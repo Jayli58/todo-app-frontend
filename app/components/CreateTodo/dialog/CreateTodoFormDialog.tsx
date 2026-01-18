@@ -44,6 +44,9 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
         onClose();
     }
 
+    const TITLE_MAX = 100;
+    const CONTENT_MAX = 200;
+
     return (
         <dialog open={open} onClose={onClose} aria-labelledby="dialog-title" className="dialog-wrapper">
             <div className="dialog-backdrop" />
@@ -87,6 +90,12 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
                                             value={title}
                                             onChange={(e) => setTitle(e.target.value)}
                                             fullWidth
+                                            slotProps={{ htmlInput: {maxLength: TITLE_MAX} }}
+                                            helperText={
+                                                title.length === 0
+                                                    ? `Up to ${TITLE_MAX} characters`
+                                                    : `${title.length} / ${TITLE_MAX} characters`
+                                            }
                                         />
                                         <TextField
                                             id="todo-content"
@@ -96,6 +105,12 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
                                             value={content}
                                             onChange={(e) => setContent(e.target.value)}
                                             fullWidth
+                                            slotProps={{ htmlInput: {maxLength: CONTENT_MAX} }}
+                                            helperText={
+                                                content.length === 0
+                                                    ? `Up to ${CONTENT_MAX} characters`
+                                                    : `${content.length} / ${CONTENT_MAX} characters`
+                                            }
                                         />
                                         {/*<Textarea*/}
                                         {/*    className="mt-1"*/}
