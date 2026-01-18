@@ -4,7 +4,7 @@ import CreateTodoFormDialog from "./dialog/CreateTodoFormDialog";
 import {useDialogStore} from "../../store/dialogStore";
 
 interface AddTodoProps {
-    addTodo: (text: string, content: string) => void;
+    addTodo: (text: string, content: string) => Promise<boolean>;
 }
 
 

@@ -59,7 +59,12 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
         });
     }, [todos]);
 
-    const addTodo = async (title: string, content: string) => {
+    const addTodo = async (title: string, content: string): Promise<boolean> => {
+        if (title === "") {
+            notify?.("error", "Todo title cannot be empty!");
+            return false;
+        }
+
         try {
             const newTodo = await createTodoApi(title, content);
 
@@ -67,11 +72,13 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
             setTodos([newTodo, ...todos]);
             // Show success snackbar
             notify?.("success", "Todo created successfully!");
+            return true;
         } catch (e: any) {
             // console.error("Creation failed:", e);
             // console.log("e: ", e);
             // Show error snackbar
             notify?.("error", "Failed to create todo! " + e.response.data.title);
+            return false;
         }
     }
 

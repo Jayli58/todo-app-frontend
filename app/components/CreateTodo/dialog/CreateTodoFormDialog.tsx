@@ -4,14 +4,20 @@ import {useEffect, useState} from "react";
 import {TextField} from "@mui/material";
 
 interface CreateTodoFormProps {
-    addTodo: (text: string, content: string) => void;
+    addTodo: (text: string, content: string) => Promise<boolean>;
     open: boolean;
     onClose: () => void;
 }
 
 function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
+    const TITLE_MAX = 100;
+    const CONTENT_MAX = 200;
+
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+
+    const [titleTouched, setTitleTouched] = useState(false);
+    const [titleBlurred, setTitleBlurred] = useState(false);
 
     // ESC key closes the dialog
     useEffect(() => {
@@ -29,23 +35,25 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
         };
     }, [open, onClose]);
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const todoText = `${title}`.trim();
         const todoContent = `${content}`.trim();
         // if (todoText === "") return;
-        addTodo(todoText, todoContent);
+        const success = await addTodo(todoText, todoContent);
+
+        // keep dialog open, keep inputs
+        if (!success) return;
 
         // reset
         setTitle("");
         setContent("");
+        setTitleTouched(false);
+        setTitleBlurred(false);
 
         // close dialog
         onClose();
     }
-
-    const TITLE_MAX = 100;
-    const CONTENT_MAX = 200;
 
     return (
         <dialog open={open} onClose={onClose} aria-labelledby="dialog-title" className="dialog-wrapper">
@@ -83,6 +91,7 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
                                         onSubmit={handleSubmit}
                                         className="flex flex-col gap-3 mb-6"
                                     >
+                                        {/*onFocus, onBlur -- soft control for the form*/}
                                         <TextField
                                             id="todo-title"
                                             label="Title"
@@ -90,9 +99,14 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
                                             value={title}
                                             onChange={(e) => setTitle(e.target.value)}
                                             fullWidth
+                                            onFocus={() => setTitleTouched(true)}
+                                            onBlur={() => setTitleBlurred(true)}
+                                            error={titleTouched && titleBlurred && title.trim().length === 0}
                                             slotProps={{ htmlInput: {maxLength: TITLE_MAX} }}
                                             helperText={
-                                                title.length === 0
+                                                titleTouched && titleBlurred && title.trim().length === 0
+                                                    ? "Title is required"
+                                                    : title.length === 0
                                                     ? `Up to ${TITLE_MAX} characters`
                                                     : `${title.length} / ${TITLE_MAX} characters`
                                             }
