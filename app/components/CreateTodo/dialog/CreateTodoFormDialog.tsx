@@ -33,7 +33,7 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
         e.preventDefault();
         const todoText = `${title}`.trim();
         const todoContent = `${content}`.trim();
-        if (todoText === "") return;
+        // if (todoText === "") return;
         addTodo(todoText, todoContent);
 
         // reset

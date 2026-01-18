@@ -68,9 +68,10 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
             // Show success snackbar
             notify?.("success", "Todo created successfully!");
         } catch (e: any) {
-            console.error("Creation failed:", e);
+            // console.error("Creation failed:", e);
+            // console.log("e: ", e);
             // Show error snackbar
-            notify?.("error", "Failed to create todo! " + e.message);
+            notify?.("error", "Failed to create todo! " + e.response.data.title);
         }
     }
 
@@ -92,7 +93,7 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
         } catch (e: any) {
             // console.error("Deletion failed:", e);
             // Show error snackbar
-            notify?.("error", "Failed to create todo! " + e.message);
+            notify?.("error", "Failed to delete todo! " + e.response.data.title);
         }
     }
 
@@ -125,7 +126,7 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
         } catch (e: any) {
             // console.error("Search failed:", e);
             // Show error snackbar
-            notify?.("error", "Search failed! " + e.message);
+            notify?.("error", "Search failed! " + e.response.data.title);
         }
     }
 
@@ -150,7 +151,7 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
         } catch (e: any) {
             // console.error("Toggle failed:", e);
             // Show error snackbar
-            notify?.("error", "Toggle failed! " + e.message);
+            notify?.("error", "Toggle failed! " + e.response.data.title);
         }
     }
 
@@ -174,7 +175,7 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
         } catch (e: any) {
             const message =
                 e.response?.data ||              // backend text body
-                e.response?.data?.message ||
+                e.response?.data?.title ||
                 e.message ||
                 "Unknown error";
 
