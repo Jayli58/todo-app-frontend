@@ -46,7 +46,14 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
 
     return (
         <li className="li-item">
-            <Tooltip title={todo.content} arrow placement="auto">
+            {/*setting (enterTouchDelay, leaveTouchDelay) for mobile; single tap would show tooltip; gone in 1.5 sec*/}
+            <Tooltip
+                title={todo.content}
+                arrow
+                placement="auto"
+                enterTouchDelay={0}
+                leaveTouchDelay={1500}
+            >
                 <span className={todo.statusCode === 'Complete' ? "text-linethrough" : "text-normal"}>
                     {todo.title}
                 </span>
