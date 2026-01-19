@@ -2,14 +2,16 @@ import {Todo} from "../dataType/Todo";
 import TodoItem from "./TodoItem/TodoItem";
 import {useFilterStore} from "../store/FilterStore";
 import {FilterType} from "../dataType/FilterTypes";
+import {CircularProgress} from "@mui/material";
 
 interface TodoListProps {
     todos: Todo[];
     toggleTodo: (todoId: string) => void;
     deleteTodo: (todoId: string) => void;
+    loading: boolean;
 }
 
-function TodoList({todos, toggleTodo, deleteTodo}: TodoListProps) {
+function TodoList({todos, toggleTodo, deleteTodo, loading}: TodoListProps) {
     const filter = useFilterStore(s => s.filter);
 
     const message =
@@ -25,9 +27,14 @@ function TodoList({todos, toggleTodo, deleteTodo}: TodoListProps) {
 
     return (
         <ul className="mb-3">
-            {todos.length === 0 && divContent}
-            {todos.map(todo => (
-                <TodoItem key={todo.todoId} todo={todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo}></TodoItem>
+            {loading && (
+                <li className="flex justify-center py-8">
+                    <CircularProgress />
+                </li>
+            )}
+            {!loading && todos.length === 0 && divContent}
+            {!loading && todos.map(todo => (
+                <TodoItem key={todo.todoId} todo={todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo} />
             ))}
         </ul>
     );

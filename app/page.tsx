@@ -40,7 +40,8 @@ export default function Home() {
         toggleTodo,
         setReminder,
         searchTodo,
-        badgeNums
+        badgeNums,
+        loading
     } = useTodos(notify);
 
     // console.log("identity: ", identity?.name);
@@ -51,10 +52,15 @@ export default function Home() {
                 <UserTag name={identity?.name ?? "Guest"} />
                 <h1 className="h1-tag">Todo List</h1>
 
-                <SearchTodo searchTodo={searchTodo}></SearchTodo>
-                <TodoList todos={filteredTodos} deleteTodo={deleteTodo} toggleTodo={toggleTodo}></TodoList>
+                <SearchTodo searchTodo={searchTodo} />
+                <TodoList
+                    todos={filteredTodos}
+                    deleteTodo={deleteTodo}
+                    toggleTodo={toggleTodo}
+                    loading={loading}
+                />
                 <div className="flex justify-between">
-                    <CreateTodo addTodo={addTodo}></CreateTodo>
+                    <CreateTodo addTodo={addTodo} />
                     <TodoFilter
                         totalNum={badgeNums.totalNum}
                         activeNum={badgeNums.activeNum}

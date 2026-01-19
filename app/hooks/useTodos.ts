@@ -29,15 +29,24 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
 
     const idToken = useIdentityStore(s => s.identity?.idToken);
 
+    const [loading, setLoading] = useState(false);
+
     // Load todos from backend once user is authenticated
     useEffect(() => {
         // if (!auth.isAuthenticated || !auth.user) return;
         // console.log("auth?", auth.isAuthenticated, "token?", !!idToken);
         if (!idToken) return;
 
+        setLoading(true);
         fetchTodosApi()
-            .then(setTodos)
-            .catch(console.error);
+            .then((result: Todo[]) => {
+                setTodos(result);
+                setLoading(false);
+            })
+            .catch(console.error)
+            .finally(() => {
+                setLoading(false);
+            });
 
     }, [auth.isAuthenticated, idToken]);
 
@@ -211,6 +220,7 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
         toggleTodo,
         setReminder,
         searchTodo,
-        badgeNums
+        badgeNums,
+        loading
     };
 }
