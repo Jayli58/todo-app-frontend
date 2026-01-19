@@ -198,7 +198,7 @@ body {
   }
 
   .dialog-text-info {
-    @apply mt-3 text-center sm:mt-0 sm:ml-4
+    @apply mt-3 text-left sm:mt-0 sm:ml-4
   }
 
   /* --- Dialog Title --- */
