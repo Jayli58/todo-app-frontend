@@ -38,7 +38,7 @@ function DeletionDialog({ todo, open, onClose, deleteTodo }: DeletionDialogProps
                                 </svg>
                             </div>
 
-                            <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <div className="dialog-text-info">
                                 <h3 id="dialog-title" className="dialog-title">
                                     Delete record
                                 </h3>

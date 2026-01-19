@@ -68,7 +68,7 @@ function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
                                 </svg>
                             </div>
 
-                            <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <div className="dialog-text-info">
                                 <h3 id="dialog-title" className="dialog-title">
                                     {todo.remindTimestamp === null ? "Set up a reminder" : "Modify the reminder"}
                                 </h3>
