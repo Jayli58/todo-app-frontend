@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {Todo} from "../dataType/Todo";
 import {useFilterStore} from "../store/FilterStore";
 import {FilterType} from "../dataType/FilterTypes";
@@ -17,14 +17,26 @@ import {useIdentityStore} from "../store/IdentityStore";
 
 export function useTodos(notify?: (type: "success" | "error", msg: string) => void) {
     const [todos, setTodos] = useState<Todo[]>([]);
-    const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
-    const [badgeNums, setBadgeNums] = useState<TodoFilterProps>({
-        totalNum: 0,
-        activeNum: 0,
-        completedNum: 0
-    });
 
-    const filter = useFilterStore(s => s.filter);
+    const badgeNums: TodoFilterProps = useMemo(() => ({
+        totalNum: todos.length,
+        activeNum: todos.filter(t => t.statusCode === "Incomplete").length,
+        completedNum: todos.filter(t => t.statusCode === "Complete").length,
+    }), [todos]);
+
+    const filter: FilterType = useFilterStore(s => s.filter);
+
+    const filteredTodos = useMemo(() => {
+        switch (filter) {
+            case FilterType.ACTIVE:
+                return todos.filter(t => t.statusCode === "Incomplete");
+            case FilterType.COMPLETED:
+                return todos.filter(t => t.statusCode === "Complete");
+            default:
+                return todos;
+        }
+    }, [todos, filter]);
+
     const auth = useAuth();
 
     const idToken = useIdentityStore(s => s.identity?.idToken);
@@ -49,24 +61,6 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
             });
 
     }, [auth.isAuthenticated, idToken]);
-
-    // update upon changes on todos or filter
-    useEffect(() => {
-        setFilteredTodos(todos);
-    }, [todos, filter]);
-
-    // badge num for filter btn
-    useEffect(() => {
-        const total = todos.length;
-        const active = todos.filter(t => t.statusCode === "Incomplete").length;
-        const completed = todos.filter(t => t.statusCode === "Complete").length;
-
-        setBadgeNums({
-            totalNum: total,
-            activeNum: active,
-            completedNum: completed,
-        });
-    }, [todos]);
 
     const addTodo = async (title: string, content: string): Promise<boolean> => {
         if (title === "") {
@@ -115,8 +109,6 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
 
     const searchTodo = async (text: string) => {
 
-        const lower = text.toLowerCase();
-
         try {
             const searchedTodos = await searchTodosApi(text);
 
@@ -129,13 +121,6 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
 
             // Update local state with backend response
             setTodos(searchedTodos);
-
-            setFilteredTodos(
-                todos.filter(todo =>
-                    todo.title.toLowerCase().includes(lower) ||
-                    todo.content.toLowerCase().includes(lower)
-                )
-            );
 
             // Show success snackbar
             notify?.("success", "Here are the searched results!");
@@ -199,22 +184,9 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
         }
     };
 
-    const getFilteredTodos = () => {
-        let list = [...filteredTodos];
-
-        switch (filter) {
-            case FilterType.COMPLETED:
-                return list.filter(todo => todo.statusCode === 'Complete');
-            case FilterType.ACTIVE:
-                return list.filter(todo => todo.statusCode === 'Incomplete');
-            default:
-                return list;
-        }
-    }
-
     return {
         todos,
-        filteredTodos: getFilteredTodos(),
+        filteredTodos,
         addTodo,
         deleteTodo,
         toggleTodo,

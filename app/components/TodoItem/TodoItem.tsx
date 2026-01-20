@@ -5,7 +5,7 @@ import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import DeletionDialog from "./dialog/DeletionDialog";
 import TimePickerDialog from "./dialog/TimePickerDialog";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Tooltip from '@mui/material/Tooltip';
 import {useDialogStore} from "../../store/dialogStore";
 
@@ -41,6 +41,12 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
         setReminderOpen(false);
         setDialogOpen(false);
     };
+
+    useEffect(() => {
+        // Cleanup: if this item unmounts (e.g. deleted) while a dialog is open,
+        // ensure global dialogOpen doesn't stay stuck true.
+        return () => setDialogOpen(false);
+    }, [setDialogOpen]);
 
     const tooltipMark = todo.statusCode === 'Incomplete' ? "Mark as completed" : "Mark as active";
 
