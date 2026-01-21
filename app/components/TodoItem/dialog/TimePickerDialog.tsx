@@ -17,8 +17,12 @@ interface TimePickerDialogProps {
 function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
     const { setReminder } = useReminder();
 
-    const handleSave = (value: number | null) => {
-        setReminder(todo.todoId, value);
+    const handleSave = async (value: number | null) => {
+        const success = await setReminder(todo.todoId, value);
+
+        // keep dialog open if unsuccessful
+        if (!success) return;
+
         onClose();
     };
 

@@ -13,9 +13,10 @@ import {
 } from "../shared/TodoService";
 import {TodoFilterProps} from "../components/TodoFilter";
 import {useIdentityStore} from "../store/IdentityStore";
+import {SnackbarType} from "../shared/components/SharedSnackbar";
 
 
-export function useTodos(notify?: (type: "success" | "error", msg: string) => void) {
+export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
     const [todos, setTodos] = useState<Todo[]>([]);
 
     const badgeNums: TodoFilterProps = useMemo(() => ({
@@ -53,7 +54,6 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
         fetchTodosApi()
             .then((result: Todo[]) => {
                 setTodos(result);
-                setLoading(false);
             })
             .catch(console.error)
             .finally(() => {
@@ -76,11 +76,14 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
             // Show success snackbar
             notify?.("success", "Todo created successfully!");
             return true;
-        } catch (e: any) {
-            // console.error("Creation failed:", e);
-            // console.log("e: ", e);
+        } catch (e: unknown) {
             // Show error snackbar
-            notify?.("error", "Failed to create todo! " + e.response.data.title);
+            const message =
+                e.response?.data?.title ||   // backend-defined message
+                e.response?.data?.message || // common alternative
+                e.message ||                 // Axios / JS error
+                "Unknown error";
+            notify?.("error", "Failed to create todo! " + message);
             return false;
         }
     }
@@ -100,10 +103,14 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
                 // Show error snackbar
                 notify?.("error", "Failed to delete todo!");
             }
-        } catch (e: any) {
-            // console.error("Deletion failed:", e);
+        } catch (e: unknown) {
             // Show error snackbar
-            notify?.("error", "Failed to delete todo! " + e.response.data.title);
+            const message =
+                e.response?.data?.title ||   // backend-defined message
+                e.response?.data?.message || // common alternative
+                e.message ||                 // Axios / JS error
+                "Unknown error";
+            notify?.("error", "Failed to delete todo! " + message);
         }
     }
 
@@ -124,10 +131,14 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
 
             // Show success snackbar
             notify?.("success", "Here are the searched results!");
-        } catch (e: any) {
-            // console.error("Search failed:", e);
+        } catch (e: unknown) {
             // Show error snackbar
-            notify?.("error", "Search failed! " + e.response.data.title);
+            const message =
+                e.response?.data?.title ||   // backend-defined message
+                e.response?.data?.message || // common alternative
+                e.message ||                 // Axios / JS error
+                "Unknown error";
+            notify?.("error", "Search failed! " + message);
         }
     }
 
@@ -149,15 +160,23 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
 
             // Show success snackbar
             notify?.("success", "Successfully marked as " + newStatus);
-        } catch (e: any) {
-            // console.error("Toggle failed:", e);
+        } catch (e: unknown) {
             // Show error snackbar
-            notify?.("error", "Toggle failed! " + e.response.data.title);
+            const message =
+                e.response?.data?.title ||   // backend-defined message
+                e.response?.data?.message || // common alternative
+                e.message ||                 // Axios / JS error
+                "Unknown error";
+
+            notify?.("error", "Toggle failed! " + message);
         }
     }
 
-    const setReminder = async (todoId: string, timestamp: number | null) => {
-        if (timestamp === null) return;
+    const setReminder = async (todoId: string, timestamp: number | null): Promise<boolean> => {
+        if (timestamp === null) {
+            notify?.("error", "Reminder time is required!");
+            return false;
+        }
 
         try {
             // call backend api
@@ -172,15 +191,16 @@ export function useTodos(notify?: (type: "success" | "error", msg: string) => vo
             }))
 
             notify?.("success", "Reminder set successfully!");
-
-        } catch (e: any) {
+            return true;
+        } catch (e: unknown) {
             const message =
-                e.response?.data ||              // backend text body
-                e.response?.data?.title ||
-                e.message ||
+                e.response?.data?.title ||   // backend-defined message
+                e.response?.data?.message || // common alternative
+                e.message ||                 // Axios / JS error
                 "Unknown error";
 
             notify?.("error", "Failed to set reminder! " + message);
+            return false;
         }
     };
 

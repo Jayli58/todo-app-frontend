@@ -23,7 +23,7 @@ export default function Home() {
     });
 
     // callback for hook to show snackbar for actions
-    const notify = (type: "success" | "error", message: string) => {
+    const notify = (type: SnackbarType, message: string) => {
         setSnackbar({
             open: true,
             type,
