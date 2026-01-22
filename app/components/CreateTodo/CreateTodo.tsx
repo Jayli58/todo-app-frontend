@@ -1,14 +1,14 @@
 'use client';
-import {useState} from "react";
+import { useState } from "react";
 import CreateTodoFormDialog from "./dialog/CreateTodoFormDialog";
-import {useDialogStore} from "../../store/dialogStore";
+import { useDialogStore } from "../../store/dialogStore";
 
 interface AddTodoProps {
     addTodo: (text: string, content: string) => Promise<boolean>;
 }
 
 
-function CreateTodo({addTodo}: AddTodoProps) {
+function CreateTodo({ addTodo }: AddTodoProps) {
     const [open, setOpen] = useState(false);
 
     const setDialogOpen = useDialogStore((s) => s.setDialogOpen);
@@ -32,7 +32,6 @@ function CreateTodo({addTodo}: AddTodoProps) {
                 Create todo
             </button>
             <CreateTodoFormDialog addTodo={addTodo} open={open} onClose={handleClose} />
-
         </div>
     );
 }

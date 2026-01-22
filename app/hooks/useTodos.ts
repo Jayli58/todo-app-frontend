@@ -76,7 +76,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
             // Show success snackbar
             notify?.("success", "Todo created successfully!");
             return true;
-        } catch (e: unknown) {
+        } catch (e: any) {
             // Show error snackbar
             const message =
                 e.response?.data?.title ||   // backend-defined message
@@ -103,7 +103,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
                 // Show error snackbar
                 notify?.("error", "Failed to delete todo!");
             }
-        } catch (e: unknown) {
+        } catch (e: any) {
             // Show error snackbar
             const message =
                 e.response?.data?.title ||   // backend-defined message
@@ -131,7 +131,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
 
             // Show success snackbar
             notify?.("success", "Here are the searched results!");
-        } catch (e: unknown) {
+        } catch (e: any) {
             // Show error snackbar
             const message =
                 e.response?.data?.title ||   // backend-defined message
@@ -160,7 +160,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
 
             // Show success snackbar
             notify?.("success", "Successfully marked as " + newStatus);
-        } catch (e: unknown) {
+        } catch (e: any) {
             // Show error snackbar
             const message =
                 e.response?.data?.title ||   // backend-defined message
@@ -192,7 +192,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
 
             notify?.("success", "Reminder set successfully!");
             return true;
-        } catch (e: unknown) {
+        } catch (e: any) {
             const message =
                 e.response?.data?.title ||   // backend-defined message
                 e.response?.data?.message || // common alternative

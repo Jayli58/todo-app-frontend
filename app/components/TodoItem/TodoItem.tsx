@@ -1,13 +1,13 @@
-import {Todo} from "../../dataType/Todo";
+import { Todo } from "../../dataType/Todo";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 import RotateLeftIcon from '@mui/icons-material/RotateLeft';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
 import DeletionDialog from "./dialog/DeletionDialog";
 import TimePickerDialog from "./dialog/TimePickerDialog";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Tooltip from '@mui/material/Tooltip';
-import {useDialogStore} from "../../store/dialogStore";
+import { useDialogStore } from "../../store/dialogStore";
 
 interface TodoItemProps {
     todo: Todo;
@@ -15,7 +15,7 @@ interface TodoItemProps {
     deleteTodo: (todoId: string) => void;
 }
 
-function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
+function TodoItem({ todo, toggleTodo, deleteTodo }: TodoItemProps) {
 
     const [reminderOpen, setReminderOpen] = useState(false);
     const [deleteOpen, setDeleteOpen] = useState(false);
@@ -71,7 +71,7 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
                         onClick={() => toggleTodo(todo.todoId)}
                         className="btn-primary"
                     >
-                        {todo.statusCode === 'Complete' ? <RotateLeftIcon/> : <DoneOutlineIcon/>}
+                        {todo.statusCode === 'Complete' ? <RotateLeftIcon /> : <DoneOutlineIcon />}
                     </button>
                 </Tooltip>
 
@@ -98,7 +98,7 @@ function TodoItem({todo, toggleTodo, deleteTodo}: TodoItemProps) {
                         onClick={handleOpenDelete}
                         className="btn-danger"
                     >
-                        <DeleteOutlinedIcon/>
+                        <DeleteOutlinedIcon />
                     </button>
                 </Tooltip>
                 <DeletionDialog todo={todo} open={deleteOpen} onClose={handleCloseDelete} deleteTodo={deleteTodo} />

@@ -1,13 +1,13 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
-import {Todo} from "../dataType/Todo";
+
 
 interface SearchTodoProps {
     // searchTodo: (text: string) => Todo[];
     searchTodo: (text: string) => Promise<void>;
 }
 
-function SearchTodo({searchTodo}: SearchTodoProps) {
+function SearchTodo({ searchTodo }: SearchTodoProps) {
     const [text, setText] = useState('');
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -25,7 +25,7 @@ function SearchTodo({searchTodo}: SearchTodoProps) {
                 placeholder="Enter keyword to search..."
             />
             <button className="btn-create">
-                <SearchIcon/>
+                <SearchIcon />
             </button>
         </form>
     );

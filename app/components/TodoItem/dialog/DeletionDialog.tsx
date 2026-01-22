@@ -1,4 +1,4 @@
-import {Todo} from "../../../dataType/Todo";
+import { Todo } from "../../../dataType/Todo";
 
 interface DeletionDialogProps {
     todo: Todo;

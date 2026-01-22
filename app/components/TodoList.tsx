@@ -28,7 +28,7 @@ function TodoList({todos, toggleTodo, deleteTodo, loading}: TodoListProps) {
     return (
         <ul className="mb-3">
             {loading && (
-                <li className="flex justify-center py-8">
+                <li className="todo-list-loading">
                     <CircularProgress />
                 </li>
             )}

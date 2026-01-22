@@ -1,14 +1,14 @@
 "use client";
 
-import {AuthProvider, hasAuthParams, useAuth, useAutoSignin} from "react-oidc-context";
-import {cognitoAuthConfig} from "../config/CongnitoAuthConfig";
-import {useEffect, useRef} from "react";
-import {AuthEvents} from "./AuthEvents";
-import {AuthSetup} from "../shared/api/AuthSetup";
+import { AuthProvider, hasAuthParams, useAuth } from "react-oidc-context";
+import { cognitoAuthConfig } from "../config/CongnitoAuthConfig";
+import { useEffect, useRef } from "react";
+import { AuthEvents } from "./AuthEvents";
+import { AuthSetup } from "../shared/api/AuthSetup";
 
 function CognitoAuthGuard({ children }: { children: React.ReactNode }) {
     const auth = useAuth();
-    // state change would not cause re-renders
+    // need to remember the state across renders without causing re-renders
     const triedSilent = useRef(false);
     const triedRedirect = useRef(false);
 
@@ -74,9 +74,9 @@ export function CognitoAuthProvider({ children }: { children: React.ReactNode })
     return (
         <AuthProvider {...cognitoAuthConfig}>
             <CognitoAuthGuard>
-                <AuthEvents/>
+                <AuthEvents />
                 {/*apply interceptor with jwt*/}
-                <AuthSetup/>
+                <AuthSetup />
                 {children}
             </CognitoAuthGuard>
         </AuthProvider>

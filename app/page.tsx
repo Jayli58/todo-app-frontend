@@ -1,13 +1,13 @@
 "use client";
 import TodoFilter from "./components/TodoFilter";
 import TodoList from "./components/TodoList";
-import {ReminderContext} from "./context/ReminderContext";
+import { ReminderContext } from "./context/ReminderContext";
 import CreateTodo from "./components/CreateTodo/CreateTodo";
 import SearchTodo from "./components/SearchTodo";
-import {useIdentityStore} from "./store/IdentityStore";
-import {useTodos} from "./hooks/useTodos";
-import React, {useState} from "react";
-import SharedSnackbar, {SnackbarType} from "./shared/components/SharedSnackbar";
+import { useIdentityStore } from "./store/IdentityStore";
+import { useTodos } from "./hooks/useTodos";
+import React, { useState } from "react";
+import SharedSnackbar, { SnackbarType } from "./shared/components/SharedSnackbar";
 import UserTag from "./shared/components/UserTag";
 
 
@@ -59,7 +59,7 @@ export default function Home() {
                     toggleTodo={toggleTodo}
                     loading={loading}
                 />
-                <div className="flex justify-between">
+                <div className="todo-actions-row">
                     <CreateTodo addTodo={addTodo} />
                     <TodoFilter
                         totalNum={badgeNums.totalNum}

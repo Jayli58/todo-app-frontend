@@ -28,6 +28,7 @@ function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
 
     const [selectedValue, setSelectedValue] = useState<number | null>(null);
 
+    // Set the selected value when the dialog is opened
     useEffect(() => {
         if (open) {
             setSelectedValue(todo.remindTimestamp);
@@ -46,6 +47,7 @@ function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
         };
 
         document.addEventListener("keydown", handler);
+        // Clean up the event listener when the component unmounts
         return () => {
             document.removeEventListener("keydown", handler);
         };

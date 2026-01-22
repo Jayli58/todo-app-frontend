@@ -28,8 +28,9 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
                 onClose();
             }
         };
-
+        
         document.addEventListener("keydown", handler);
+        // cleanup
         return () => {
             document.removeEventListener("keydown", handler);
         };
