@@ -39,7 +39,7 @@ function CognitoAuthGuard({ children }: { children: React.ReactNode }) {
                 auth.signinRedirect();
             }
         }
-    }, [auth.isLoading, auth.isAuthenticated, auth]);
+    }, [auth.isLoading, auth.isAuthenticated]);
 
     // When auth succeeds again, reset both flags
     useEffect(() => {
