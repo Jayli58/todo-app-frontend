@@ -1,4 +1,4 @@
-import {WebStorageStateStore} from "oidc-client-ts";
+import { WebStorageStateStore } from "oidc-client-ts";
 
 export const cognitoAuthConfig = {
     authority: `https://cognito-idp.${process.env.NEXT_PUBLIC_AWS_COGNITO_REGION}.amazonaws.com/${process.env.NEXT_PUBLIC_AWS_COGNITO_POOL_ID}`,

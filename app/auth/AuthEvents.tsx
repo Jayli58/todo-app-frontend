@@ -42,23 +42,27 @@ export function AuthEvents() {
 
         auth.events.addUserLoaded(onUserLoaded);
 
-        auth.events.addAccessTokenExpiring(() => {
+        const onAccessTokenExpiring = () => {
             console.log("Token expiring, trying silent renew...");
-        });
+        };
 
-        auth.events.addAccessTokenExpired(() => {
+        const onAccessTokenExpired = () => {
             console.log("Token expired");
-        });
+        };
 
-        auth.events.addSilentRenewError((e) => {
+        const onSilentRenewError = (e: Error) => {
             console.error("Silent renew error", e);
-        });
+        };
+
+        auth.events.addAccessTokenExpiring(onAccessTokenExpiring);
+        auth.events.addAccessTokenExpired(onAccessTokenExpired);
+        auth.events.addSilentRenewError(onSilentRenewError);
 
         // cleanup
         return () => {
-            auth.events.removeAccessTokenExpiring(() => {});
-            auth.events.removeAccessTokenExpired(() => {});
-            auth.events.removeSilentRenewError(() => {});
+            auth.events.removeAccessTokenExpiring(onAccessTokenExpiring);
+            auth.events.removeAccessTokenExpired(onAccessTokenExpired);
+            auth.events.removeSilentRenewError(onSilentRenewError);
             auth.events.removeUserLoaded(onUserLoaded);
         };
 

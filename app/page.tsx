@@ -6,7 +6,7 @@ import CreateTodo from "./components/CreateTodo/CreateTodo";
 import SearchTodo from "./components/SearchTodo";
 import { useIdentityStore } from "./store/IdentityStore";
 import { useTodos } from "./hooks/useTodos";
-import React, { useState } from "react";
+import { useState } from "react";
 import SharedSnackbar, { SnackbarType } from "./shared/components/SharedSnackbar";
 import UserTag from "./shared/components/UserTag";
 

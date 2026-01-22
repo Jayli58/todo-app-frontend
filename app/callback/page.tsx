@@ -9,6 +9,7 @@ export default function Callback() {
 
     useEffect(() => {
         if (!auth.isLoading && auth.isAuthenticated) {
+            // remove code and state from url
             window.location.replace("/");
         }
     }, [auth.isLoading, auth.isAuthenticated]);
