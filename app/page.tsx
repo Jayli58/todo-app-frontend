@@ -9,6 +9,7 @@ import { useTodos } from "./hooks/useTodos";
 import { useState } from "react";
 import SharedSnackbar, { SnackbarType } from "./shared/components/SharedSnackbar";
 import UserTag from "./shared/components/UserTag";
+import { useLoadingStore } from "./store/LoadingStore";
 
 
 export default function Home() {
@@ -40,9 +41,11 @@ export default function Home() {
         toggleTodo,
         setReminder,
         searchTodo,
-        badgeNums,
-        loading
+        badgeNums
     } = useTodos(notify);
+
+    // get loading state for initial fetch
+    const isFetching = useLoadingStore((s) => s.isLoading("fetch"));
 
     // console.log("identity: ", identity?.name);
 
@@ -57,7 +60,7 @@ export default function Home() {
                     todos={filteredTodos}
                     deleteTodo={deleteTodo}
                     toggleTodo={toggleTodo}
-                    loading={loading}
+                    loading={isFetching}
                 />
                 <div className="todo-actions-row">
                     <CreateTodo addTodo={addTodo} />

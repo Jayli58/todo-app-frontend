@@ -14,6 +14,7 @@ import {
 import { TodoFilterProps } from "../components/TodoFilter";
 import { useIdentityStore } from "../store/IdentityStore";
 import { SnackbarType } from "../shared/components/SharedSnackbar";
+import { withLoading } from "../store/LoadingStore";
 
 
 export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
@@ -42,23 +43,17 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
 
     const idToken = useIdentityStore(s => s.identity?.idToken);
 
-    const [loading, setLoading] = useState(false);
-
     // Load todos from backend once user is authenticated
     useEffect(() => {
         // if (!auth.isAuthenticated || !auth.user) return;
         // console.log("auth?", auth.isAuthenticated, "token?", !!idToken);
         if (!idToken) return;
 
-        setLoading(true);
-        fetchTodosApi()
+        withLoading("fetch", fetchTodosApi)
             .then((result: Todo[]) => {
                 setTodos(result);
             })
             .catch(console.error)
-            .finally(() => {
-                setLoading(false);
-            });
 
     }, [auth.isAuthenticated, idToken]);
 
@@ -69,7 +64,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
         }
 
         try {
-            const newTodo = await createTodoApi(title, content);
+            const newTodo = await withLoading("create", () => createTodoApi(title, content));
 
             // Update local state with backend response
             setTodos([newTodo, ...todos]);
@@ -91,7 +86,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
     const deleteTodo = async (todoId: string) => {
         try {
             // 1. Send deletion to backend
-            const success = await deleteTodoApi(todoId);
+            const success = await withLoading(`delete:${todoId}`, () => deleteTodoApi(todoId));
 
             // 2. Update local state with backend response
             if (success) {
@@ -117,7 +112,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
     const searchTodo = async (text: string) => {
 
         try {
-            const searchedTodos = await searchTodosApi(text);
+            const searchedTodos = await withLoading("search", () => searchTodosApi(text));
 
             if (searchedTodos.length === 0) {
                 // console.error("No matching todos found.");
@@ -151,7 +146,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
 
         try {
             // 1. Send update to backend
-            const updated = await updateTodoStatusApi(todoId, newStatus);
+            const updated = await withLoading(`toggle:${todoId}`, () => updateTodoStatusApi(todoId, newStatus));
 
             // 2. Update local state with backend response
             setTodos(todos.map(t =>
@@ -180,7 +175,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
 
         try {
             // call backend api
-            await UpsertReminder(todoId, timestamp);
+            await withLoading(`reminder:${todoId}`, () => UpsertReminder(todoId, timestamp));
 
             // update react state
             setTodos(todos.map(todo => {
@@ -212,7 +207,6 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
         toggleTodo,
         setReminder,
         searchTodo,
-        badgeNums,
-        loading
+        badgeNums
     };
 }

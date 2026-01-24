@@ -9,6 +9,7 @@ import {
     updateTodoStatusApi,
     UpsertReminder,
 } from "../../shared/TodoService";
+import { useLoadingStore } from "../../store/LoadingStore";
 
 const useAuthMock = jest.fn();
 const useFilterStoreMock = jest.fn();
@@ -39,6 +40,7 @@ jest.mock("../../shared/TodoService", () => ({
 
 describe("useTodos", () => {
     beforeEach(() => {
+        useLoadingStore.setState({ loadingActions: new Set() });
         useAuthMock.mockReturnValue({ isAuthenticated: true });
         useIdentityStoreMock.mockImplementation((selector) =>
             selector({ identity: { idToken: "token" } })
@@ -56,9 +58,9 @@ describe("useTodos", () => {
 
         const { result } = renderHook(() => useTodos());
 
-        // wait for loading to be false
         await waitFor(() => {
-            expect(result.current.loading).toBe(false);
+            expect(fetchTodosApi).toHaveBeenCalled();
+            expect(result.current.filteredTodos).toHaveLength(1);
         });
 
         expect(fetchTodosApi).toHaveBeenCalled();
