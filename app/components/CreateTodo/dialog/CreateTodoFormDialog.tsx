@@ -1,7 +1,8 @@
 'use client';
 import PostAddIcon from '@mui/icons-material/PostAdd';
-import {useEffect, useState} from "react";
-import {TextField} from "@mui/material";
+import { useEffect, useState } from "react";
+import { TextField } from "@mui/material";
+import { useLoadingStore } from "../../../store/LoadingStore";
 
 interface CreateTodoFormProps {
     addTodo: (text: string, content: string) => Promise<boolean>;
@@ -9,7 +10,7 @@ interface CreateTodoFormProps {
     onClose: () => void;
 }
 
-function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
+function CreateTodoFormDialog({ addTodo, open, onClose }: CreateTodoFormProps) {
     const TITLE_MAX = 100;
     const CONTENT_MAX = 200;
 
@@ -18,6 +19,8 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
 
     const [titleTouched, setTitleTouched] = useState(false);
     const [titleBlurred, setTitleBlurred] = useState(false);
+
+    const creating = useLoadingStore((s) => s.loadingActions.has("create"));
 
     // ESC key closes the dialog
     useEffect(() => {
@@ -28,7 +31,7 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
                 onClose();
             }
         };
-        
+
         document.addEventListener("keydown", handler);
         // cleanup
         return () => {
@@ -103,13 +106,13 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
                                             onFocus={() => setTitleTouched(true)}
                                             onBlur={() => setTitleBlurred(true)}
                                             error={titleTouched && titleBlurred && title.trim().length === 0}
-                                            slotProps={{ htmlInput: {maxLength: TITLE_MAX} }}
+                                            slotProps={{ htmlInput: { maxLength: TITLE_MAX } }}
                                             helperText={
                                                 titleTouched && titleBlurred && title.trim().length === 0
                                                     ? "Title is required"
                                                     : title.length === 0
-                                                    ? `Up to ${TITLE_MAX} characters`
-                                                    : `${title.length} / ${TITLE_MAX} characters`
+                                                        ? `Up to ${TITLE_MAX} characters`
+                                                        : `${title.length} / ${TITLE_MAX} characters`
                                             }
                                         />
                                         <TextField
@@ -120,7 +123,7 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
                                             value={content}
                                             onChange={(e) => setContent(e.target.value)}
                                             fullWidth
-                                            slotProps={{ htmlInput: {maxLength: CONTENT_MAX} }}
+                                            slotProps={{ htmlInput: { maxLength: CONTENT_MAX } }}
                                             helperText={
                                                 content.length === 0
                                                     ? `Up to ${CONTENT_MAX} characters`
@@ -151,8 +154,9 @@ function CreateTodoFormDialog({addTodo, open, onClose}: CreateTodoFormProps) {
                             type="submit"
                             form="todoForm"
                             className="dialog-btn-secondary"
+                            disabled={creating}
                         >
-                            Create
+                            {creating ? "Creating..." : "Create"}
                         </button>
 
                         <button

@@ -8,6 +8,7 @@ import TimePickerDialog from "./dialog/TimePickerDialog";
 import { useEffect, useState } from "react";
 import Tooltip from '@mui/material/Tooltip';
 import { useDialogStore } from "../../store/DialogStore";
+import { useLoadingStore } from "../../store/LoadingStore";
 
 interface TodoItemProps {
     todo: Todo;
@@ -21,6 +22,11 @@ function TodoItem({ todo, toggleTodo, deleteTodo }: TodoItemProps) {
     const [deleteOpen, setDeleteOpen] = useState(false);
 
     const setDialogOpen = useDialogStore((s) => s.setDialogOpen);
+
+    // Subscribe to loading states for this specific todo
+    const isToggling = useLoadingStore((s) => s.loadingActions.has(`toggle:${todo.todoId}`));
+    const isDeleting = useLoadingStore((s) => s.loadingActions.has(`delete:${todo.todoId}`));
+    const isSettingReminder = useLoadingStore((s) => s.loadingActions.has(`reminder:${todo.todoId}`));
 
     const handleOpenDelete = () => {
         setDeleteOpen(true);
@@ -67,12 +73,15 @@ function TodoItem({ todo, toggleTodo, deleteTodo }: TodoItemProps) {
 
             <div className="flex gap-2">
                 <Tooltip title={tooltipMark} placement="top" arrow>
-                    <button
-                        onClick={() => toggleTodo(todo.todoId)}
-                        className="btn-primary"
-                    >
-                        {todo.statusCode === 'Complete' ? <RotateLeftIcon /> : <DoneOutlineIcon />}
-                    </button>
+                    <span>
+                        <button
+                            onClick={() => toggleTodo(todo.todoId)}
+                            className="btn-primary"
+                            disabled={isToggling}
+                        >
+                            {todo.statusCode === 'Complete' ? <RotateLeftIcon /> : <DoneOutlineIcon />}
+                        </button>
+                    </span>
                 </Tooltip>
 
                 {/*<button*/}
@@ -84,22 +93,28 @@ function TodoItem({ todo, toggleTodo, deleteTodo }: TodoItemProps) {
                 {/*<TimePickerDialog/>*/}
 
                 <Tooltip title="Set email notification" placement="top" arrow>
-                    <button
-                        onClick={handleOpenReminder}
-                        className="btn-secondary"
-                    >
-                        <AccessAlarmIcon />
-                    </button>
+                    <span>
+                        <button
+                            onClick={handleOpenReminder}
+                            className="btn-secondary"
+                            disabled={isSettingReminder}
+                        >
+                            <AccessAlarmIcon />
+                        </button>
+                    </span>
                 </Tooltip>
                 <TimePickerDialog todo={todo} open={reminderOpen} onClose={handleCloseReminder} />
 
                 <Tooltip title="Delete" placement="top" arrow>
-                    <button
-                        onClick={handleOpenDelete}
-                        className="btn-danger"
-                    >
-                        <DeleteOutlinedIcon />
-                    </button>
+                    <span>
+                        <button
+                            onClick={handleOpenDelete}
+                            className="btn-danger"
+                            disabled={isDeleting}
+                        >
+                            <DeleteOutlinedIcon />
+                        </button>
+                    </span>
                 </Tooltip>
                 <DeletionDialog todo={todo} open={deleteOpen} onClose={handleCloseDelete} deleteTodo={deleteTodo} />
 

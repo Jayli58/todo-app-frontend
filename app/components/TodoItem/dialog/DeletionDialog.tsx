@@ -1,4 +1,5 @@
 import { Todo } from "../../../dataType/Todo";
+import { useLoadingStore } from "../../../store/LoadingStore";
 
 interface DeletionDialogProps {
     todo: Todo;
@@ -8,6 +9,7 @@ interface DeletionDialogProps {
 }
 
 function DeletionDialog({ todo, open, onClose, deleteTodo }: DeletionDialogProps) {
+    const isDeleting = useLoadingStore((s) => s.loadingActions.has(`delete:${todo.todoId}`));
 
     return (
         <dialog open={open} onClose={onClose} id="deletion-dialog" aria-labelledby="dialog-title" className="dialog-wrapper">
@@ -67,8 +69,9 @@ function DeletionDialog({ todo, open, onClose, deleteTodo }: DeletionDialogProps
                             onClick={() => deleteTodo(todo.todoId)}
                             className="dialog-btn-danger"
                             type="button"
+                            disabled={isDeleting}
                         >
-                            Delete
+                            {isDeleting ? "Deleting..." : "Delete"}
                         </button>
 
                         <button

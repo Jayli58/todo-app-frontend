@@ -1,11 +1,12 @@
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import {Todo} from "../../../dataType/Todo";
+import { Todo } from "../../../dataType/Todo";
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
-import {useEffect, useState} from "react";
-import {useReminder} from "../../../context/ReminderContext";
+import { useEffect, useState } from "react";
+import { useReminder } from "../../../context/ReminderContext";
 import dayjs from 'dayjs';
-import {MobileDateTimePicker} from "@mui/x-date-pickers";
+import { MobileDateTimePicker } from "@mui/x-date-pickers";
+import { useLoadingStore } from "../../../store/LoadingStore";
 
 
 interface TimePickerDialogProps {
@@ -14,8 +15,9 @@ interface TimePickerDialogProps {
     onClose: () => void;
 }
 
-function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
+function TimePickerDialog({ todo, open, onClose }: TimePickerDialogProps) {
     const { setReminder } = useReminder();
+    const isSettingReminder = useLoadingStore((s) => s.loadingActions.has(`reminder:${todo.todoId}`));
 
     const handleSave = async (value: number | null) => {
         const success = await setReminder(todo.todoId, value);
@@ -119,8 +121,9 @@ function TimePickerDialog({todo, open, onClose}: TimePickerDialogProps) {
                             onClick={() => handleSave(selectedValue)}
                             className="dialog-btn-secondary"
                             type="button"
+                            disabled={isSettingReminder}
                         >
-                            {todo.remindTimestamp === null ? "Set" : "Reset"}
+                            {isSettingReminder ? "Saving..." : (todo.remindTimestamp === null ? "Set" : "Reset")}
                         </button>
 
                         <button

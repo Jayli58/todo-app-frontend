@@ -1,8 +1,8 @@
-import {Todo} from "../dataType/Todo";
+import { Todo } from "../dataType/Todo";
 import TodoItem from "./TodoItem/TodoItem";
-import {useFilterStore} from "../store/FilterStore";
-import {FilterType} from "../dataType/FilterTypes";
-import {CircularProgress} from "@mui/material";
+import { useFilterStore } from "../store/FilterStore";
+import { FilterType } from "../dataType/FilterTypes";
+import { CircularProgress } from "@mui/material";
 
 interface TodoListProps {
     todos: Todo[];
@@ -11,7 +11,7 @@ interface TodoListProps {
     loading: boolean;
 }
 
-function TodoList({todos, toggleTodo, deleteTodo, loading}: TodoListProps) {
+function TodoList({ todos, toggleTodo, deleteTodo, loading }: TodoListProps) {
     const filter = useFilterStore(s => s.filter);
 
     const message =

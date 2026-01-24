@@ -1,8 +1,8 @@
-import {useEffect, useMemo, useState} from "react";
-import {Todo} from "../dataType/Todo";
-import {useFilterStore} from "../store/FilterStore";
-import {FilterType} from "../dataType/FilterTypes";
-import {useAuth} from "react-oidc-context";
+import { useEffect, useMemo, useState } from "react";
+import { Todo } from "../dataType/Todo";
+import { useFilterStore } from "../store/FilterStore";
+import { FilterType } from "../dataType/FilterTypes";
+import { useAuth } from "react-oidc-context";
 import {
     createTodoApi,
     deleteTodoApi,
@@ -11,9 +11,9 @@ import {
     updateTodoStatusApi,
     UpsertReminder
 } from "../shared/TodoService";
-import {TodoFilterProps} from "../components/TodoFilter";
-import {useIdentityStore} from "../store/IdentityStore";
-import {SnackbarType} from "../shared/components/SharedSnackbar";
+import { TodoFilterProps } from "../components/TodoFilter";
+import { useIdentityStore } from "../store/IdentityStore";
+import { SnackbarType } from "../shared/components/SharedSnackbar";
 
 
 export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
