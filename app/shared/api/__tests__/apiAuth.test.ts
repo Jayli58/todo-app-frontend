@@ -24,9 +24,12 @@ describe("setupAxiosInterceptors", () => {
             identity: { idToken: "token" },
         });
 
+        // Register interceptor
         setupAxiosInterceptors();
 
+        // the first argument is the interceptor function
         const interceptor = (api.interceptors.request.use as jest.Mock).mock.calls[0][0];
+        // Simulate Axios calling the interceptor
         const config = interceptor({ headers: {} });
 
         expect(config.headers.Authorization).toBe("Bearer token");

@@ -2,7 +2,7 @@ import {useFilterStore} from "../store/FilterStore";
 import {FilterType} from "../dataType/FilterTypes";
 import Badge, { BadgeProps } from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
-import {useDialogStore} from "../store/dialogStore";
+import {useDialogStore} from "../store/DialogStore";
 
 export interface TodoFilterProps {
     totalNum: number;

@@ -19,6 +19,7 @@ describe("TodoFilter", () => {
     it("updates filter when clicking Active", () => {
         const setFilter = jest.fn();
 
+        // a stub defining fake state
         useFilterStoreMock.mockImplementation((selector) =>
             selector({ filter: FilterType.ALL, setFilter })
         );

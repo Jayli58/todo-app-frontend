@@ -1,7 +1,7 @@
 'use client';
 import { useState } from "react";
 import CreateTodoFormDialog from "./dialog/CreateTodoFormDialog";
-import { useDialogStore } from "../../store/dialogStore";
+import { useDialogStore } from "../../store/DialogStore";
 
 interface AddTodoProps {
     addTodo: (text: string, content: string) => Promise<boolean>;

@@ -6,7 +6,9 @@ export function setupAxiosInterceptors() {
         const token = useIdentityStore.getState().identity?.idToken;
 
         if (token) {
+            // ensure headers exists
             config.headers = config.headers ?? {};
+            // add token to header
             config.headers.Authorization = `Bearer ${token}`;
         }
 

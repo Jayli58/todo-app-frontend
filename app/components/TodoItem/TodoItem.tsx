@@ -7,7 +7,7 @@ import DeletionDialog from "./dialog/DeletionDialog";
 import TimePickerDialog from "./dialog/TimePickerDialog";
 import { useEffect, useState } from "react";
 import Tooltip from '@mui/material/Tooltip';
-import { useDialogStore } from "../../store/dialogStore";
+import { useDialogStore } from "../../store/DialogStore";
 
 interface TodoItemProps {
     todo: Todo;

@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import TodoList from "../TodoList";
 import { FilterType } from "../../dataType/FilterTypes";
@@ -50,8 +49,8 @@ describe("TodoList", () => {
         render(
             <TodoList
                 todos={[
-                    { todoId: "1", title: "First", content: "", statusCode: "Incomplete" },
-                    { todoId: "2", title: "Second", content: "", statusCode: "Complete" },
+                    { todoId: "1", title: "First", content: "", statusCode: "Incomplete", remindTimestamp: null },
+                    { todoId: "2", title: "Second", content: "", statusCode: "Complete", remindTimestamp: null },
                 ]}
                 loading={false}
                 toggleTodo={jest.fn()}

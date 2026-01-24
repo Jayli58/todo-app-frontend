@@ -56,6 +56,7 @@ describe("useTodos", () => {
 
         const { result } = renderHook(() => useTodos());
 
+        // wait for loading to be false
         await waitFor(() => {
             expect(result.current.loading).toBe(false);
         });

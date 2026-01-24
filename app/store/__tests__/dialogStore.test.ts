@@ -1,4 +1,4 @@
-import { useDialogStore } from "../dialogStore";
+import { useDialogStore } from "../DialogStore";
 
 describe("dialogStore", () => {
     afterEach(() => {
