@@ -2,6 +2,7 @@ import { useFilterStore } from "../FilterStore";
 import { FilterType } from "../../dataType/FilterTypes";
 
 describe("FilterStore", () => {
+    // reset store after each test to avoid state leaks
     afterEach(() => {
         useFilterStore.setState({ filter: FilterType.ALL });
     });

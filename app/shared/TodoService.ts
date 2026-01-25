@@ -2,9 +2,12 @@ import { api } from "./api/api";
 import { Todo } from "../dataType/Todo";
 import { withLoading } from "../store/LoadingStore";
 
+
 export async function fetchTodosApi(): Promise<Todo[]> {
-    const res = await api.get("/todo");
-    return res.data;
+    return withLoading("fetch", async () => {
+        const res = await api.get("/todo");
+        return res.data;
+    });
 }
 
 export async function createTodoApi(title: string, content: string): Promise<Todo> {

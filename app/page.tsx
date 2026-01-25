@@ -44,8 +44,10 @@ export default function Home() {
         badgeNums
     } = useTodos(notify);
 
-    // get loading state for initial fetch
-    const isFetching = useLoadingStore((s) => s.isLoading("fetch"));
+    // get loading state for initial fetch + search
+    const isFetching = useLoadingStore(
+        (s) => s.isLoading("fetch") || s.isLoading("search")
+    );
 
     // console.log("identity: ", identity?.name);
 

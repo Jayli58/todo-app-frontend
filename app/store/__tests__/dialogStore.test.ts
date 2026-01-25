@@ -1,6 +1,7 @@
 import { useDialogStore } from "../DialogStore";
 
 describe("dialogStore", () => {
+    // reset store after each test to avoid state leaks
     afterEach(() => {
         useDialogStore.setState({ isDialogOpen: false });
     });

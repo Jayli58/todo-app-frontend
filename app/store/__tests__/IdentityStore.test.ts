@@ -1,6 +1,7 @@
 import { useIdentityStore } from "../IdentityStore";
 
 describe("IdentityStore", () => {
+    // reset store after each test to avoid state leaks
     afterEach(() => {
         useIdentityStore.setState({ identity: null });
     });

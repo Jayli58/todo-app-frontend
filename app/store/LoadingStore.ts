@@ -2,9 +2,9 @@ import { create } from "zustand";
 
 // Action types that can be in a loading state
 export type LoadingAction =
-    | "fetch"
-    | "create"
-    | "search"
+    | "fetch"               // initial fetch
+    | "create"              // create todo
+    | "search"              // search todo
     | `toggle:${string}`    // toggle:todoId
     | `delete:${string}`    // delete:todoId
     | `reminder:${string}`; // reminder:todoId

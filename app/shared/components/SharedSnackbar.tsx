@@ -4,7 +4,6 @@ import Alert from '@mui/material/Alert';
 
 export type SnackbarType = "success" | "error";
 
-
 interface SharedSnackbarProps {
     open: boolean;
     type: SnackbarType;
@@ -18,6 +17,7 @@ export default function SharedSnackbar(snackbarProps: SharedSnackbarProps) {
         event?: React.SyntheticEvent | Event,
         reason?: SnackbarCloseReason,
     ) => {
+        // ignore if user clicked away
         if (reason === 'clickaway') return;
         snackbarProps.onClose();
     };
