@@ -1,6 +1,6 @@
 Todo List
 
-Simple, fast todo app built with Next.js and the App Router, featuring Cognito authentication and email reminders to keep tasks on track across desktop and mobile.
+Simple, fast todo app built with Next.js and the App Router, featuring MUI + Tailwind styling, Cognito authentication, and email reminders to keep tasks on track across desktop and mobile.
 
 Features
 - Add, complete, search, and remove todos
