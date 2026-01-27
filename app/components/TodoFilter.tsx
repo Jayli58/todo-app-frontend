@@ -10,19 +10,19 @@ export interface TodoFilterProps {
     completedNum: number;
 }
 
+// has to apply customised style to not to obscur dialog
+const StyledBadge = styled(Badge)<BadgeProps>(() => ({
+    "& .MuiBadge-badge": {
+        right: -10,
+        top: -15,
+        backgroundColor: "var(--color-secondary)",
+    },
+}));
+
 function TodoFilter(todoFilterProps: TodoFilterProps) {
     const filter = useFilterStore((s) => s.filter);
     const setFilter = useFilterStore((s) => s.setFilter);
     const isDialogOpen = useDialogStore((s) => s.isDialogOpen);
-
-    // has to apply customised style to not to obscur dialog
-    const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
-        '& .MuiBadge-badge': {
-            right: -10,
-            top: -15,
-            backgroundColor: 'var(--color-secondary)',
-        },
-    }));
 
     return (
         <div className="flex gap-2 mt-4">

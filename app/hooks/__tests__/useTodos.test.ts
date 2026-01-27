@@ -5,9 +5,6 @@ import {
     createTodoApi,
     deleteTodoApi,
     fetchTodosApi,
-    searchTodosApi,
-    updateTodoStatusApi,
-    UpsertReminder,
 } from "../../shared/TodoService";
 import { useLoadingStore } from "../../store/LoadingStore";
 

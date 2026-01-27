@@ -28,15 +28,7 @@ function TimePickerDialog({ todo, open, onClose }: TimePickerDialogProps) {
         onClose();
     };
 
-    const [selectedValue, setSelectedValue] = useState<number | null>(null);
-
-    // Set the selected value when the dialog is opened
-    useEffect(() => {
-        if (open) {
-            setSelectedValue(todo.remindTimestamp);
-            // console.log("todo.remindTimestamp: ", todo.remindTimestamp);
-        }
-    }, [open, todo.remindTimestamp]);
+    const [selectedValue, setSelectedValue] = useState<number | null>(todo.remindTimestamp);
 
     // ESC key closes the dialog
     useEffect(() => {
@@ -55,8 +47,17 @@ function TimePickerDialog({ todo, open, onClose }: TimePickerDialogProps) {
         };
     }, [open, onClose]);
 
+    // if dialog is not open, do not render
+    if (!open) return null;
+
     return (
-        <dialog open={open} onClose={onClose} aria-labelledby="dialog-title" className="dialog-wrapper">
+        <dialog
+            key={`${todo.todoId}-${todo.remindTimestamp ?? "none"}`}
+            open={open}
+            onClose={onClose}
+            aria-labelledby="dialog-title"
+            className="dialog-wrapper"
+        >
             <div className="dialog-backdrop" />
 
             <div tabIndex={0} className="dialog-container-top">
