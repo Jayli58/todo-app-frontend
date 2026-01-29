@@ -14,6 +14,15 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
+#      for debugging
+      - name: Show OIDC context
+          run: |
+            echo "ref=$GITHUB_REF"
+            echo "workflow_ref=$GITHUB_WORKFLOW_REF"
+      - run: |
+            ID_TOKEN=$(curl -s -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=api://demo" | jq -r .value)
+            echo $ID_TOKEN | base64
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
@@ -25,13 +34,6 @@ jobs:
       - run: npm test --if-present
       - run: npm run build
       - run: test -d out
-
-#      for debugging
-      - name: Show OIDC context
-        run: |
-          echo "ref=$GITHUB_REF"
-          echo "workflow_ref=$GITHUB_WORKFLOW_REF"
-          echo "job_workflow_ref=$GITHUB_JOB_WORKFLOW_REF"
 
       - name: Configure AWS creds (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
