@@ -5,7 +5,7 @@ import CreateTodo from "../CreateTodo";
 const setDialogOpen = jest.fn();
 let dialogProps: any;
 
-jest.mock("../../../store/dialogStore", () => ({
+jest.mock("../../../store/DialogStore", () => ({
     useDialogStore: (selector: (state: { setDialogOpen: jest.Mock }) => unknown) =>
         selector({ setDialogOpen }),
 }));

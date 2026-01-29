@@ -13,7 +13,7 @@ jest.mock("@mui/material/Tooltip", () => ({
 }));
 
 // Mock Dialog Store
-jest.mock("../../../store/dialogStore", () => ({
+jest.mock("../../../store/DialogStore", () => ({
     useDialogStore: (selector: (state: { setDialogOpen: jest.Mock }) => unknown) =>
         selector({ setDialogOpen }),
 }));

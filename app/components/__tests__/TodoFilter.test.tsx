@@ -10,7 +10,7 @@ jest.mock("../../store/FilterStore", () => ({
         useFilterStoreMock(selector),
 }));
 
-jest.mock("../../store/dialogStore", () => ({
+jest.mock("../../store/DialogStore", () => ({
     useDialogStore: (selector: (state: { isDialogOpen: boolean }) => unknown) =>
         useDialogStoreMock(selector),
 }));
