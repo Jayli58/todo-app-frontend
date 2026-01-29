@@ -55,7 +55,7 @@ export default function Home() {
         <ReminderContext.Provider value={{ setReminder }}>
             <div className="mat-card">
                 <UserTag name={identity?.name ?? "Guest"} />
-                <h1 className="h1-tag">Todo List</h1>
+                <h1 className="h1-tag">Todo List!</h1>
 
                 <SearchTodo searchTodo={searchTodo} />
                 <TodoList
