@@ -16,9 +16,9 @@ jobs:
     steps:
 #      for debugging
       - name: Show OIDC context
-          run: |
-            echo "ref=$GITHUB_REF"
-            echo "workflow_ref=$GITHUB_WORKFLOW_REF"
+        run: |
+          echo "ref=$GITHUB_REF"
+          echo "workflow_ref=$GITHUB_WORKFLOW_REF"
       - run: |
             ID_TOKEN=$(curl -s -H "Authorization: bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=api://demo" | jq -r .value)
             echo $ID_TOKEN | base64
