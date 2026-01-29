@@ -34,6 +34,12 @@ jobs:
       - run: npm ci
       - run: npm test --if-present
       - run: npm run build
+        env:
+          NEXT_PUBLIC_AWS_COGNITO_REGION: ${{ secrets.AWS_REGION }}
+          NEXT_PUBLIC_AWS_COGNITO_POOL_ID: ${{ secrets.NEXT_PUBLIC_AWS_COGNITO_POOL_ID }}
+          NEXT_PUBLIC_AWS_COGNITO_APP_CLIENT_ID: ${{ secrets.NEXT_PUBLIC_AWS_COGNITO_APP_CLIENT_ID }}
+          NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+          NEXT_PUBLIC_FRONTEND_URL: ${{ secrets.NEXT_PUBLIC_FRONTEND_URL }}
       - run: test -d out
 
       - name: Configure AWS creds (OIDC)
