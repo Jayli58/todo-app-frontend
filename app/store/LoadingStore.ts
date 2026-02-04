@@ -3,6 +3,7 @@ import { create } from "zustand";
 // Action types that can be in a loading state
 export type LoadingAction =
     | "fetch"               // initial fetch
+    | "loadMore"            // load more todos
     | "create"              // create todo
     | "search"              // search todo
     | `toggle:${string}`    // toggle:todoId

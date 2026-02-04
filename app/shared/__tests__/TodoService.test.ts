@@ -1,3 +1,4 @@
+import { TODO_PAGE_LIMIT } from "../../config/PaginationConfig";
 import {
     createTodoApi,
     deleteTodoApi,
@@ -24,7 +25,9 @@ describe("TodoService", () => {
 
         const result = await fetchTodosApi();
 
-        expect(api.get).toHaveBeenCalledWith("/todo");
+        expect(api.get).toHaveBeenCalledWith("/todo", {
+            params: { limit: TODO_PAGE_LIMIT, offset: 0 },
+        });
         expect(result).toEqual([{ todoId: "1" }]);
     });
 

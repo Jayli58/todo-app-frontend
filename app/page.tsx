@@ -41,12 +41,18 @@ export default function Home() {
         toggleTodo,
         setReminder,
         searchTodo,
+        loadMore,
+        hasMore,
         badgeNums
     } = useTodos(notify);
 
     // get loading state for initial fetch + search
     const isFetching = useLoadingStore(
         (s) => s.isLoading("fetch") || s.isLoading("search")
+    );
+    // get loading state for load more
+    const isLoadingMore = useLoadingStore(
+        (s) => s.isLoading("loadMore")
     );
 
     // console.log("identity: ", identity?.name);
@@ -63,6 +69,9 @@ export default function Home() {
                     deleteTodo={deleteTodo}
                     toggleTodo={toggleTodo}
                     loading={isFetching}
+                    onLoadMore={loadMore}
+                    hasMore={hasMore}
+                    loadingMore={isLoadingMore}
                 />
                 <div className="todo-actions-row">
                     <CreateTodo addTodo={addTodo} />

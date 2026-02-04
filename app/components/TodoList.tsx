@@ -2,16 +2,27 @@ import { Todo } from "../dataType/Todo";
 import TodoItem from "./TodoItem/TodoItem";
 import { useFilterStore } from "../store/FilterStore";
 import { FilterType } from "../dataType/FilterTypes";
-import { CircularProgress } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 
 interface TodoListProps {
     todos: Todo[];
     toggleTodo: (todoId: string) => void;
     deleteTodo: (todoId: string) => void;
     loading: boolean;
+    onLoadMore?: () => void;
+    hasMore?: boolean;
+    loadingMore?: boolean;
 }
 
-function TodoList({ todos, toggleTodo, deleteTodo, loading }: TodoListProps) {
+function TodoList({
+    todos,
+    toggleTodo,
+    deleteTodo,
+    loading,
+    onLoadMore,
+    hasMore,
+    loadingMore
+}: TodoListProps) {
     const filter = useFilterStore(s => s.filter);
 
     const message =
@@ -26,17 +37,31 @@ function TodoList({ todos, toggleTodo, deleteTodo, loading }: TodoListProps) {
     );
 
     return (
-        <ul className="mb-3">
-            {loading && (
-                <li className="todo-list-loading">
-                    <CircularProgress />
-                </li>
+        <>
+            <ul className="mb-3">
+                {loading && (
+                    <li className="todo-list-loading">
+                        <CircularProgress />
+                    </li>
+                )}
+                {!loading && todos.length === 0 && divContent}
+                {!loading && todos.map(todo => (
+                    <TodoItem key={todo.todoId} todo={todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo} />
+                ))}
+            </ul>
+            {!loading && hasMore && onLoadMore && (
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                    <Button
+                        variant="outlined"
+                        onClick={onLoadMore}
+                        disabled={loadingMore}
+                        startIcon={loadingMore ? <CircularProgress size={16} /> : undefined}
+                    >
+                        Load more
+                    </Button>
+                </div>
             )}
-            {!loading && todos.length === 0 && divContent}
-            {!loading && todos.map(todo => (
-                <TodoItem key={todo.todoId} todo={todo} toggleTodo={toggleTodo} deleteTodo={deleteTodo} />
-            ))}
-        </ul>
+        </>
     );
 }
 

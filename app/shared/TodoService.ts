@@ -1,11 +1,18 @@
 import { api } from "./api/api";
 import { Todo } from "../dataType/Todo";
-import { withLoading } from "../store/LoadingStore";
+import { LoadingAction, withLoading } from "../store/LoadingStore";
+import { TODO_PAGE_LIMIT } from "../config/PaginationConfig";
 
 
-export async function fetchTodosApi(): Promise<Todo[]> {
-    return withLoading("fetch", async () => {
-        const res = await api.get("/todo");
+export async function fetchTodosApi(
+    limit: number = TODO_PAGE_LIMIT,
+    offset: number = 0,
+    loadingAction: LoadingAction = "fetch"
+): Promise<Todo[]> {
+    return withLoading(loadingAction, async () => {
+        const res = await api.get("/todo", {
+            params: { limit, offset }
+        });
         return res.data;
     });
 }
