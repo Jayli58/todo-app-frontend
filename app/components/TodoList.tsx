@@ -51,15 +51,19 @@ function TodoList({
             </ul>
             {!loading && hasMore && onLoadMore && (
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                    <Button
-                        variant="outlined"
+                    <button
                         onClick={onLoadMore}
                         disabled={loadingMore}
-                        startIcon={loadingMore ? <CircularProgress size={16} /> : undefined}
+                        className="btn-load-more"
                     >
-                        Load more
-                    </Button>
+                        {loadingMore ? "Loading..." : "Load more"}
+                    </button>                    
                 </div>
+            )}
+            {!loading && !hasMore && todos.length > 0 && (
+                <span style={{ display: "flex", justifyContent: "center" }}>
+                    <span className="text-muted-italic">No more records...</span>
+                </span>
             )}
         </>
     );

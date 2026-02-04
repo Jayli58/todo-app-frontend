@@ -72,7 +72,7 @@ describe("TodoService", () => {
         await searchTodosApi("query");
 
         expect(api.get).toHaveBeenCalledWith("/todo/search", {
-            params: { query: "query" },
+            params: { query: "query", limit: TODO_PAGE_LIMIT },
         });
     });
 

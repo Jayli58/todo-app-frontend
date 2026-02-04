@@ -33,14 +33,11 @@ body {
 
 @layer components {
   .input {
-    @apply flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2
-    text-gray-900 shadow-sm focus:border-indigo-500
-    focus:outline-none focus:ring-2 focus:ring-indigo-500;
+    @apply flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500;
   }
 
   .mat-card {
-    @apply max-w-xl mx-auto mt-10 rounded-xl bg-white dark:bg-gray-800
-    pt-4 pb-8 px-8 shadow-lg ring-1 ring-gray-900/5;
+    @apply max-w-xl mx-auto mt-10 rounded-xl bg-white dark:bg-gray-800 pt-4 pb-8 px-8 shadow-lg ring-1 ring-gray-900/5;
   }
 
   .search-bar {
@@ -57,8 +54,7 @@ body {
   }
 
   .btn-primary {
-    @apply rounded-lg px-3 py-1 font-medium text-white
-    shadow focus:outline-none
+    @apply rounded-lg px-3 py-1 font-medium text-white shadow focus:outline-none
     /*focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2*/
     cursor-pointer;
     background-color: var(--color-primary);
@@ -69,8 +65,7 @@ body {
   }
 
   .btn-secondary {
-    @apply rounded-lg px-3 py-1 font-medium text-white
-    shadow focus:outline-none
+    @apply rounded-lg px-3 py-1 font-medium text-white shadow focus:outline-none
     /*focus:ring-2 focus:ring-blue-500 focus:ring-offset-2*/
     cursor-pointer;
     background-color: var(--color-secondary);
@@ -90,24 +85,15 @@ body {
   }
 
   .btn-filter-inactive {
-    @apply inline-flex items-center justify-center
-    px-3 py-1 rounded-md text-sm font-semibold text-gray-700
-    bg-transparent border border-gray-300
-    hover:bg-gray-100 dark:hover:bg-gray-800
-    transition cursor-pointer;
+    @apply inline-flex items-center justify-center px-3 py-1 rounded-md text-sm font-semibold text-gray-700 bg-transparent border border-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition cursor-pointer;
   }
 
   .btn-filter-active {
-    @apply inline-flex items-center justify-center
-    px-3 py-1 rounded-md text-sm font-semibold text-gray-700
-    bg-gray-300 border border-gray-300
-    transition cursor-pointer;
+    @apply inline-flex items-center justify-center px-3 py-1 rounded-md text-sm font-semibold text-gray-700 bg-gray-300 border border-gray-300 transition cursor-pointer;
   }
 
   .btn-new-create {
-    @apply inline-flex items-center justify-center
-    px-3 py-1 rounded-md text-sm font-semibold text-white
-    transition cursor-pointer;
+    @apply inline-flex items-center justify-center px-3 py-1 rounded-md text-sm font-semibold text-white transition cursor-pointer;
     background-color: var(--color-secondary);
   }
 
@@ -115,17 +101,24 @@ body {
     background-color: var(--color-secondary-hover);
   }
 
+  .btn-load-more {
+    @apply inline-flex items-center justify-center px-3 py-1 rounded-md text-sm font-semibold border transition cursor-pointer;
+    color: var(--color-secondary);
+    border-color: var(--color-secondary);
+    background-color: transparent;
+  }
+
+  .btn-load-more:hover {
+    background-color: #f3f4f6;
+  }
+
+
   .btn-text {
-    @apply mt-3 inline-flex w-full justify-center
-    rounded-md bg-white px-3 py-2 text-sm
-    font-semibold text-gray-900 shadow-xs
-    inset-ring inset-ring-gray-300 hover:bg-gray-50
-    sm:mt-0 sm:w-auto cursor-pointer
+    @apply mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto cursor-pointer
   }
 
   .li-item {
-    @apply flex items-center justify-between border-b border-gray-300 py-2
-    hover:bg-gray-100;
+    @apply flex items-center justify-between border-b border-gray-300 py-2 hover:bg-gray-100;
   }
 
   .todo-list-loading {
@@ -142,13 +135,16 @@ body {
     pointer-events: auto;
   }
 
+  .text-muted-italic {
+    @apply italic text-gray-500 mt-2 text-sm font-medium break-all px-2;
+  }
+
   .text-normal {
     @apply mt-2 text-base font-medium break-all px-2;
   }
 
   .text-hint {
-    @apply mt-2 text-base font-medium break-all px-2
-    italic text-gray-500 opacity-80;
+    @apply mt-2 text-base font-medium break-all px-2 italic text-gray-500 opacity-80;
   }
 
   .text-hint::placeholder {
@@ -161,48 +157,37 @@ body {
 
   /* --- Dialog Wrapper --- */
   .dialog-wrapper {
-    @apply fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto
-    bg-transparent backdrop:bg-transparent;
+    @apply fixed inset-0 size-auto max-h-none max-w-none overflow-y-auto bg-transparent backdrop:bg-transparent;
   }
 
   /* --- Backdrop --- */
   .dialog-backdrop {
-    @apply fixed inset-0 bg-gray-500/75 transition-opacity
-    data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out
-    data-leave:duration-200 data-leave:ease-in;
+    @apply fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in;
   }
 
   /* --- Dialog Container Alignment --- */
   .dialog-container {
-    @apply flex min-h-full items-end justify-center p-4 text-center
-    focus:outline-none sm:items-center sm:p-0;
+    @apply flex min-h-full items-end justify-center p-4 text-center focus:outline-none sm:items-center sm:p-0;
   }
 
   .dialog-container-top {
-    @apply flex min-h-full items-center justify-center p-4 text-center
-    focus:outline-none sm:items-start sm:p-0;
+    @apply flex min-h-full items-center justify-center p-4 text-center focus:outline-none sm:items-start sm:p-0;
   }
 
   /* --- Dialog Panel --- */
   .dialog-panel {
     @apply relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl
     /*style for mobile*/
-    w-[calc(100vw-2rem)] mx-auto
-    transition-all data-closed:translate-y-4 data-closed:opacity-0
-    data-enter:duration-300 data-enter:ease-out data-leave:duration-200
-    data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg
-    data-closed:sm:translate-y-0 data-closed:sm:scale-95;
+    w-[calc(100vw-2rem)] mx-auto transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95;
   }
 
   /* --- Icon Circle --- */
   .dialog-icon {
-    @apply mx-auto flex size-12 shrink-0 items-center justify-center
-    rounded-full bg-red-100 sm:mx-0 sm:size-10;
+    @apply mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10;
   }
 
   .dialog-icon-blue {
-    @apply mx-auto flex size-12 shrink-0 items-center justify-center
-    rounded-full bg-blue-100 sm:mx-0 sm:size-10;
+    @apply mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:size-10;
   }
 
   .dialog-text-info {
@@ -231,9 +216,7 @@ body {
 
   /* --- Footer Buttons --- */
   .dialog-btn-danger {
-    @apply inline-flex w-full justify-center rounded-md px-3 py-1
-    text-sm font-semibold text-white shadow-xs
-    sm:ml-3 sm:w-24 cursor-pointer my-2;
+    @apply inline-flex w-full justify-center rounded-md px-3 py-1 text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-24 cursor-pointer my-2;
     background-color: var(--color-danger);
   }
 
@@ -242,8 +225,7 @@ body {
   }
 
   .dialog-btn-secondary {
-    @apply inline-flex w-full justify-center rounded-md px-3 py-1
-    text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-24 cursor-pointer my-2;
+    @apply inline-flex w-full justify-center rounded-md px-3 py-1 text-sm font-semibold text-white shadow-xs sm:ml-3 sm:w-24 cursor-pointer my-2;
     background-color: var(--color-secondary);
   }
 
@@ -252,9 +234,7 @@ body {
   }
 
   .dialog-btn-cancel {
-    @apply inline-flex w-full justify-center rounded-md bg-white px-3 py-1
-    text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300
-    hover:bg-gray-100 sm:ml-3 sm:w-24 cursor-pointer my-2;
+    @apply inline-flex w-full justify-center rounded-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 shadow-xs inset-ring inset-ring-gray-300 hover:bg-gray-100 sm:ml-3 sm:w-24 cursor-pointer my-2;
   }
 
   .MuiSnackbar-root .MuiPaper-root {

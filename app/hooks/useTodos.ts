@@ -117,9 +117,9 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
     const searchTodo = async (text: string) => {
 
         try {
-            const searchedTodos = await searchTodosApi(text);
+            const result = await searchTodosApi(text, limit, null);
 
-            if (searchedTodos.length === 0) {
+            if (result.items.length === 0) {
                 // console.error("No matching todos found.");
                 // Show error snackbar
                 notify?.("error", "No matching todos found.");
@@ -127,10 +127,9 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
             }
 
             // Update local state with backend response
-            setTodos(searchedTodos);
-            setNextToken(null);
-            // todo: needs pagination as well
-            setHasMore(false);
+            setTodos(result.items);
+            setNextToken(result.nextToken);
+            setHasMore(result.nextToken !== null);
 
             // Show success snackbar
             notify?.("success", "Here are the searched results!");

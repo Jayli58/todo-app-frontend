@@ -57,12 +57,26 @@ export async function deleteTodoApi(todoId: string): Promise<boolean> {
     });
 }
 
-export async function searchTodosApi(query: string): Promise<Todo[]> {
+export async function searchTodosApi(
+    query: string,
+    limit: number = TODO_PAGE_LIMIT,
+    paginationToken: string | null = null
+): Promise<PaginatedTodos> {
     return withLoading("search", async () => {
+        const params: { query: string; limit: number; lastKey?: string } = { query, limit };
+        if (paginationToken) {
+            params.lastKey = paginationToken;
+        }
         const res = await api.get("/todo/search", {
-            params: { query }
+            params
         });
-        return res.data;
+        const rawToken = typeof res.headers?.get === "function"
+            ? res.headers.get("x-next-page-key") : null;
+        const nextToken = typeof rawToken === "string" ? rawToken : null;
+        return {
+            items: res.data?.items ?? res.data ?? [],
+            nextToken,
+        };
     });
 }
 
