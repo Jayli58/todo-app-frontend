@@ -21,6 +21,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
     const [todos, setTodos] = useState<Todo[]>([]);
     const [nextToken, setNextToken] = useState<string | null>(null);
     const [hasMore, setHasMore] = useState(true);
+    const [searchText, setSearchText] = useState<string>("");
     const limit = TODO_PAGE_LIMIT;
 
     const badgeNums: TodoFilterProps = useMemo(() => ({
@@ -117,7 +118,9 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
     const searchTodo = async (text: string) => {
 
         try {
-            const result = await searchTodosApi(text, limit, null);
+            const trimmed = text.trim();
+            setSearchText(trimmed);
+            const result = await searchTodosApi(trimmed, limit, null);
 
             if (result.items.length === 0) {
                 // console.error("No matching todos found.");
@@ -210,7 +213,10 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
         if (!hasMore) return;
 
         try {
-            const result = await fetchTodosApi(limit, nextToken, "loadMore");
+            // if searchText is not empty, use searchTodosApi, otherwise use fetchTodosApi
+            const result = searchText
+                ? await searchTodosApi(searchText, limit, nextToken)
+                : await fetchTodosApi(limit, nextToken, "loadMore");
 
             setTodos(prev => [...prev, ...result.items]);
             setNextToken(result.nextToken);
