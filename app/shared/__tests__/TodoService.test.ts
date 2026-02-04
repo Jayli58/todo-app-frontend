@@ -21,14 +21,20 @@ jest.mock("../api/api", () => ({
 
 describe("TodoService", () => {
     it("fetches todos", async () => {
-        (api.get as jest.Mock).mockResolvedValue({ data: [{ todoId: "1" }] });
+        (api.get as jest.Mock).mockResolvedValue({
+            data: { items: [{ todoId: "1" }], nextToken: "token" },
+            headers: { "x-next-page-key": "token" },
+        });
 
         const result = await fetchTodosApi();
 
         expect(api.get).toHaveBeenCalledWith("/todo", {
-            params: { limit: TODO_PAGE_LIMIT, offset: 0 },
+            params: { limit: TODO_PAGE_LIMIT },
         });
-        expect(result).toEqual([{ todoId: "1" }]);
+        expect(result).toEqual({
+            items: [{ todoId: "1" }],
+            nextToken: "token",
+        });
     });
 
     it("creates a todo", async () => {

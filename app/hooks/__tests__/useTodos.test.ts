@@ -48,10 +48,13 @@ describe("useTodos", () => {
     });
 
     it("loads todos and filters by active", async () => {
-        (fetchTodosApi as jest.Mock).mockResolvedValue([
-            { todoId: "1", title: "A", content: "", statusCode: "Incomplete" },
-            { todoId: "2", title: "B", content: "", statusCode: "Complete" },
-        ]);
+        (fetchTodosApi as jest.Mock).mockResolvedValue({
+            items: [
+                { todoId: "1", title: "A", content: "", statusCode: "Incomplete" },
+                { todoId: "2", title: "B", content: "", statusCode: "Complete" },
+            ],
+            nextToken: null,
+        });
 
         const { result } = renderHook(() => useTodos());
 
@@ -82,9 +85,12 @@ describe("useTodos", () => {
     });
 
     it("deletes todo and notifies", async () => {
-        (fetchTodosApi as jest.Mock).mockResolvedValue([
-            { todoId: "1", title: "A", content: "", statusCode: "Incomplete" },
-        ]);
+        (fetchTodosApi as jest.Mock).mockResolvedValue({
+            items: [
+                { todoId: "1", title: "A", content: "", statusCode: "Incomplete" },
+            ],
+            nextToken: null,
+        });
         (deleteTodoApi as jest.Mock).mockResolvedValue(true);
         const notify = jest.fn();
 

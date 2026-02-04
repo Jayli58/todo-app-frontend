@@ -19,7 +19,7 @@ import { TODO_PAGE_LIMIT } from "../config/PaginationConfig";
 
 export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
     const [todos, setTodos] = useState<Todo[]>([]);
-    const [offset, setOffset] = useState(0);
+    const [nextToken, setNextToken] = useState<string | null>(null);
     const [hasMore, setHasMore] = useState(true);
     const limit = TODO_PAGE_LIMIT;
 
@@ -52,12 +52,11 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
         // console.log("auth?", auth.isAuthenticated, "token?", !!idToken);
         if (!idToken) return;
 
-        fetchTodosApi(limit, 0, "fetch")
-            .then((result: Todo[]) => {
-                setTodos(result);
-                setOffset(result.length);
-                // if the number of todos is less than the limit, then there are no more todos
-                setHasMore(result.length === limit);
+        fetchTodosApi(limit, null, "fetch")
+            .then((result) => {
+                setTodos(result.items);
+                setNextToken(result.nextToken);
+                setHasMore(result.nextToken !== null);
             })
             .catch(console.error)
 
@@ -74,7 +73,6 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
 
             // Update local state with backend response
             setTodos([newTodo, ...todos]);
-            setOffset(prev => prev + 1);
             // Show success snackbar
             notify?.("success", "Todo created successfully!");
             return true;
@@ -98,7 +96,6 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
             // 2. Update local state with backend response
             if (success) {
                 setTodos(todos.filter(todo => todo.todoId !== todoId));
-                setOffset(prev => prev - 1);
                 // Show success snackbar
                 notify?.("success", "Todo deleted successfully!");
             } else {
@@ -131,7 +128,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
 
             // Update local state with backend response
             setTodos(searchedTodos);
-            setOffset(searchedTodos.length);
+            setNextToken(null);
             // todo: needs pagination as well
             setHasMore(false);
 
@@ -214,11 +211,11 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
         if (!hasMore) return;
 
         try {
-            const moreTodos = await fetchTodosApi(limit, offset, "loadMore");
+            const result = await fetchTodosApi(limit, nextToken, "loadMore");
 
-            setTodos(prev => [...prev, ...moreTodos]);
-            setOffset(prev => prev + moreTodos.length);
-            setHasMore(moreTodos.length === limit);
+            setTodos(prev => [...prev, ...result.items]);
+            setNextToken(result.nextToken);
+            setHasMore(result.nextToken !== null);
         } catch (e: any) {
             const message =
                 e.response?.data?.title ||

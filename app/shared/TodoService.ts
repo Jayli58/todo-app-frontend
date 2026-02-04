@@ -4,16 +4,30 @@ import { LoadingAction, withLoading } from "../store/LoadingStore";
 import { TODO_PAGE_LIMIT } from "../config/PaginationConfig";
 
 
+export interface PaginatedTodos {
+    items: Todo[];
+    nextToken: string | null;
+}
+
 export async function fetchTodosApi(
     limit: number = TODO_PAGE_LIMIT,
-    offset: number = 0,
+    paginationToken: string | null = null,
     loadingAction: LoadingAction = "fetch"
-): Promise<Todo[]> {
+): Promise<PaginatedTodos> {
     return withLoading(loadingAction, async () => {
-        const res = await api.get("/todo", {
-            params: { limit, offset }
-        });
-        return res.data;
+        const params: { limit: number; lastKey?: string } = { limit };
+        if (paginationToken) {
+            params.lastKey = paginationToken;
+        }
+
+        const res = await api.get("/todo", { params });
+        const rawToken = typeof res.headers?.get === "function"
+            ? res.headers.get("x-next-page-key") : null;
+        const nextToken = typeof rawToken === "string" ? rawToken : null;
+        return {
+            items: res.data?.items ?? res.data ?? [],
+            nextToken,
+        };
     });
 }
 
