@@ -1,1 +1,1 @@
-export const TODO_PAGE_LIMIT = 3;
+export const TODO_PAGE_LIMIT = 10;
