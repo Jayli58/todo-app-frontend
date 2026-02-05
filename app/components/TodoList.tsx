@@ -50,7 +50,7 @@ function TodoList({
                 ))}
             </ul>
             {!loading && hasMore && onLoadMore && (
-                <div style={{ display: "flex", justifyContent: "center" }}>
+                <div className="todo-list-center">
                     <button
                         onClick={onLoadMore}
                         disabled={loadingMore}
@@ -61,9 +61,9 @@ function TodoList({
                 </div>
             )}
             {!loading && !hasMore && todos.length > 0 && (
-                <span style={{ display: "flex", justifyContent: "center" }}>
+                <div className="todo-list-center">
                     <span className="text-muted-italic">No more records...</span>
-                </span>
+                </div>
             )}
         </>
     );

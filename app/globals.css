@@ -102,7 +102,7 @@ body {
   }
 
   .btn-load-more {
-    @apply inline-flex items-center justify-center px-3 py-1 rounded-md text-sm font-semibold border transition cursor-pointer;
+    @apply inline-flex items-center justify-center px-3 py-1 rounded-md text-sm font-semibold border transition cursor-pointer w-full;
     color: var(--color-secondary);
     border-color: var(--color-secondary);
     background-color: transparent;
@@ -110,6 +110,10 @@ body {
 
   .btn-load-more:hover {
     background-color: #f3f4f6;
+  }
+
+  .todo-list-center {
+    @apply flex w-full justify-center;
   }
 
 
