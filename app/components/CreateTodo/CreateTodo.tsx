@@ -1,5 +1,5 @@
 'use client';
-import { useState } from "react";
+import {useCallback, useState} from "react";
 import CreateTodoFormDialog from "./dialog/CreateTodoFormDialog";
 import { useDialogStore } from "../../store/DialogStore";
 
@@ -13,15 +13,16 @@ function CreateTodo({ addTodo }: AddTodoProps) {
 
     const setDialogOpen = useDialogStore((s) => s.setDialogOpen);
 
-    const handleOpen = () => {
+    // useCallback is used to prevent the component from re-rendering unnecessarily.
+    const handleOpen = useCallback(() => {
         setOpen(true);
         setDialogOpen(true);
-    };
+    }, [setDialogOpen]);
 
-    const handleClose = () => {
+    const handleClose = useCallback(() => {
         setOpen(false);
         setDialogOpen(false);
-    };
+    }, [setDialogOpen]);
 
     return (
         <div className="mt-4">
