@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      # for debugging
+      # for debugging OIDC token
       # - name: Show OIDC context
       #   run: |
       #     echo "ref=$GITHUB_REF"
