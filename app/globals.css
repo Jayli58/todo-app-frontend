@@ -37,7 +37,7 @@ body {
   }
 
   .mat-card {
-    @apply max-w-xl mx-auto mt-10 rounded-xl bg-white dark:bg-gray-800 pt-4 pb-8 px-8 shadow-lg ring-1 ring-gray-900/5;
+    @apply max-w-xl mx-auto mt-0 mb-1 rounded-xl bg-white dark:bg-gray-800 pt-4 pb-4 px-8 shadow-lg ring-1 ring-gray-900/5 sm:mt-4 sm:mb-4 sm:pb-8;
   }
 
   .search-bar {
