@@ -23,7 +23,7 @@ describe("TodoService", () => {
     it("fetches todos", async () => {
         (api.get as jest.Mock).mockResolvedValue({
             data: { items: [{ todoId: "1" }], nextToken: "token" },
-            headers: { get: () => "token" },
+            headers: { "x-next-page-key": "token" },
         });
 
         const result = await fetchTodosApi();

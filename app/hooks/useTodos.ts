@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Todo } from "../dataType/Todo";
 import { useFilterStore } from "../store/FilterStore";
 import { FilterType } from "../dataType/FilterTypes";
@@ -11,6 +11,7 @@ import {
     updateTodoStatusApi,
     UpsertReminder
 } from "../shared/TodoService";
+import { getApiError } from "../shared/api/api";
 import { TodoFilterProps } from "../components/TodoFilter";
 import { useIdentityStore } from "../store/IdentityStore";
 import { SnackbarType } from "../shared/components/SharedSnackbar";
@@ -23,6 +24,13 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
     const [hasMore, setHasMore] = useState(true);
     const [searchText, setSearchText] = useState<string>("");
     const limit = TODO_PAGE_LIMIT;
+    // introduce requestId to prevent stale async response
+    const requestIdRef = useRef(0);
+
+    const nextRequestId = () => {
+        requestIdRef.current += 1;
+        return requestIdRef.current;
+    };
 
     const badgeNums: TodoFilterProps = useMemo(() => ({
         totalNum: todos.length,
@@ -52,9 +60,11 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
         // if (!auth.isAuthenticated || !auth.user) return;
         // console.log("auth?", auth.isAuthenticated, "token?", !!idToken);
         if (!idToken) return;
+        const requestId = nextRequestId();
 
         fetchTodosApi(limit, null, "fetch")
             .then((result) => {
+                if (requestId !== requestIdRef.current) return;
                 setTodos(result.items);
                 setNextToken(result.nextToken);
                 setHasMore(result.nextToken !== null);
@@ -79,11 +89,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
             return true;
         } catch (e: any) {
             // Show error snackbar
-            const message =
-                e.response?.data?.title ||   // backend-defined message
-                e.response?.data?.message || // common alternative
-                e.message ||                 // Axios / JS error
-                "Unknown error";
+            const { message } = getApiError(e);
             notify?.("error", "Failed to create todo! " + message);
             return false;
         }
@@ -106,11 +112,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
             }
         } catch (e: any) {
             // Show error snackbar
-            const message =
-                e.response?.data?.title ||   // backend-defined message
-                e.response?.data?.message || // common alternative
-                e.message ||                 // Axios / JS error
-                "Unknown error";
+            const { message } = getApiError(e);
             notify?.("error", "Failed to delete todo! " + message);
         }
     }
@@ -120,11 +122,21 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
         try {
             const trimmed = text.trim();
             setSearchText(trimmed);
+            // reset pagination to a clean state before searching
+            setNextToken(null);
+            setHasMore(true);
+            const requestId = nextRequestId();
             const result = await searchTodosApi(trimmed, limit, null);
+
+            if (requestId !== requestIdRef.current) return;
 
             if (result.items.length === 0) {
                 // console.error("No matching todos found.");
                 // Show error snackbar
+                setTodos([]);
+                setNextToken(null);
+                // disable "load more" btn
+                setHasMore(false);
                 notify?.("error", "No matching todos found.");
                 return;
             }
@@ -137,12 +149,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
             // Show success snackbar
             notify?.("success", "Here are the searched results!");
         } catch (e: any) {
-            // Show error snackbar
-            const message =
-                e.response?.data?.title ||   // backend-defined message
-                e.response?.data?.message || // common alternative
-                e.message ||                 // Axios / JS error
-                "Unknown error";
+            const { message } = getApiError(e);
             notify?.("error", "Search failed! " + message);
         }
     }
@@ -166,13 +173,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
             // Show success snackbar
             notify?.("success", "Successfully marked as " + newStatus);
         } catch (e: any) {
-            // Show error snackbar
-            const message =
-                e.response?.data?.title ||   // backend-defined message
-                e.response?.data?.message || // common alternative
-                e.message ||                 // Axios / JS error
-                "Unknown error";
-
+            const { message } = getApiError(e);
             notify?.("error", "Toggle failed! " + message);
         }
     }
@@ -197,11 +198,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
             notify?.("success", "Reminder set successfully!");
             return true;
         } catch (e: any) {
-            const message =
-                e.response?.data?.title ||   // backend-defined message
-                e.response?.data?.message || // common alternative
-                e.message ||                 // Axios / JS error
-                "Unknown error";
+            const { message } = getApiError(e);
 
             notify?.("error", "Failed to set reminder! " + message);
             return false;
@@ -213,19 +210,17 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
 
         try {
             // if searchText is not empty, use searchTodosApi, otherwise use fetchTodosApi
+            const requestId = nextRequestId();
             const result = searchText
                 ? await searchTodosApi(searchText, limit, nextToken)
                 : await fetchTodosApi(limit, nextToken, "loadMore");
 
+            if (requestId !== requestIdRef.current) return;
             setTodos(prev => [...prev, ...result.items]);
             setNextToken(result.nextToken);
             setHasMore(result.nextToken !== null);
         } catch (e: any) {
-            const message =
-                e.response?.data?.title ||
-                e.response?.data?.message ||
-                e.message ||
-                "Unknown error";
+            const { message } = getApiError(e);
 
             notify?.("error", "Failed to load more todos! " + message);
         }

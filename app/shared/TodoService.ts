@@ -21,8 +21,7 @@ export async function fetchTodosApi(
         }
 
         const res = await api.get("/todo", { params });
-        const rawToken = typeof res.headers?.get === "function"
-            ? res.headers.get("x-next-page-key") : null;
+        const rawToken = res.headers?.["x-next-page-key"] ?? null;
         const nextToken = typeof rawToken === "string" ? rawToken : null;
         return {
             items: res.data?.items ?? res.data ?? [],
