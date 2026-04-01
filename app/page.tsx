@@ -6,8 +6,8 @@ import CreateTodo from "./components/CreateTodo/CreateTodo";
 import SearchTodo from "./components/SearchTodo";
 import { useIdentityStore } from "./store/IdentityStore";
 import { useTodos } from "./hooks/useTodos";
-import { useState } from "react";
-import SharedSnackbar, { SnackbarType } from "./shared/components/SharedSnackbar";
+import SharedSnackbar from "./shared/components/SharedSnackbar";
+import useSnackbar from "./shared/hooks/useSnackbar";
 import UserTag from "./shared/components/UserTag";
 import { useLoadingStore } from "./store/LoadingStore";
 
@@ -16,22 +16,7 @@ export default function Home() {
     // get auth info
     const identity = useIdentityStore(i => i.identity);
 
-    const [snackbar, setSnackbar] = useState({
-        open: false,
-        type: "success" as SnackbarType,
-        message: "",
-        duration: 0
-    });
-
-    // callback for hook to show snackbar for actions
-    const notify = (type: SnackbarType, message: string) => {
-        setSnackbar({
-            open: true,
-            type,
-            message,
-            duration: 3000
-        });
-    };
+    const { snackbar, notify, closeSnackbar } = useSnackbar();
 
     // trigger todo hooks
     const {
@@ -88,7 +73,7 @@ export default function Home() {
                 type={snackbar.type}
                 message={snackbar.message}
                 duration={snackbar.duration}
-                onClose={() => setSnackbar({ ...snackbar, open: false })}
+                onClose={closeSnackbar}
             />
         </ReminderContext.Provider>
     );

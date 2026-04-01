@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import React from "react";
+import AppErrorBoundary from "./shared/components/AppErrorBoundary";
 
 
 // lazy loading; enable client side rendering only;
@@ -11,5 +12,9 @@ const CognitoAuthProviderClient = dynamic(
 );
 
 export default function AuthClientProvider({ children }: { children: React.ReactNode }) {
-    return <CognitoAuthProviderClient>{children}</CognitoAuthProviderClient>;
+    return (
+        <CognitoAuthProviderClient>
+            <AppErrorBoundary>{children}</AppErrorBoundary>
+        </CognitoAuthProviderClient>
+    );
 }
