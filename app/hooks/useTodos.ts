@@ -133,18 +133,9 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
             if (result.items.length === 0) {
                 // console.error("No matching todos found.");
                 // Show error snackbar
-                setTodos([]);
-                setNextToken(null);
-                // disable "load more" btn
-                setHasMore(false);
                 notify?.("error", "No matching todos found.");
                 return;
             }
-
-            // Update local state with backend response
-            setTodos(result.items);
-            setNextToken(result.nextToken);
-            setHasMore(result.nextToken !== null);
 
             // Show success snackbar
             notify?.("success", "Here are the searched results!");
