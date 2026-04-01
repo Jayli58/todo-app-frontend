@@ -73,7 +73,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
             const newTodo = await createTodoApi(title, content);
 
             // Update local state with backend response
-            setTodos([newTodo, ...todos]);
+            setTodos(prev => [newTodo, ...prev]);
             // Show success snackbar
             notify?.("success", "Todo created successfully!");
             return true;
@@ -96,7 +96,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
 
             // 2. Update local state with backend response
             if (success) {
-                setTodos(todos.filter(todo => todo.todoId !== todoId));
+                setTodos(prev => prev.filter(todo => todo.todoId !== todoId));
                 // Show success snackbar
                 notify?.("success", "Todo deleted successfully!");
             } else {
@@ -159,7 +159,7 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
             const updated = await updateTodoStatusApi(todoId, newStatus);
 
             // 2. Update local state with backend response
-            setTodos(todos.map(t =>
+            setTodos(prev => prev.map(t =>
                 t.todoId === todoId ? updated : t
             ));
 
@@ -188,12 +188,11 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
             await UpsertReminder(todoId, timestamp);
 
             // update react state
-            setTodos(todos.map(todo => {
-                if (todo.todoId === todoId) {
-                    todo.remindTimestamp = timestamp;
-                }
-                return todo;
-            }))
+            setTodos(prev => prev.map(todo =>
+                todo.todoId === todoId
+                    ? { ...todo, remindTimestamp: timestamp }
+                    : todo
+            ));
 
             notify?.("success", "Reminder set successfully!");
             return true;
