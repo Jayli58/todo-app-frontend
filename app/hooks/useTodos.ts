@@ -122,9 +122,6 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
         try {
             const trimmed = text.trim();
             setSearchText(trimmed);
-            // reset pagination to a clean state before searching
-            setNextToken(null);
-            setHasMore(true);
             const requestId = nextRequestId();
             const result = await searchTodosApi(trimmed, limit, null);
 
@@ -136,6 +133,11 @@ export function useTodos(notify?: (type: SnackbarType, msg: string) => void) {
                 notify?.("error", "No matching todos found.");
                 return;
             }
+
+            // Update local state with backend response
+            setTodos(result.items);
+            setNextToken(result.nextToken);
+            setHasMore(result.nextToken !== null);
 
             // Show success snackbar
             notify?.("success", "Here are the searched results!");
